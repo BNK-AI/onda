@@ -722,7 +722,9 @@
             <div class="dot green"></div>
           </div>
           <div class="window-title">ABOUT_ONDA.txt</div>
-          <div class="window-close" onclick="closeWindow('about')">&#10005;</div>
+          <div class="window-close" onclick="closeWindow('about')">
+            &#10005;
+          </div>
         </div>
         <div class="window-body">
           <div class="section-tag">WHO WE ARE</div>
@@ -781,6 +783,9 @@
             <div class="dot green"></div>
           </div>
           <div class="window-title">SERVICES.pdf</div>
+          <div class="window-close" onclick="closeWindow('services')">
+            &#10005;
+          </div>
         </div>
         <div class="window-body">
           <div class="section-tag">WHAT WE DO</div>
@@ -856,6 +861,9 @@
             <div class="dot green"></div>
           </div>
           <div class="window-title">PORTFOLIO</div>
+          <div class="window-close" onclick="closeWindow('portfolio')">
+            &#10005;
+          </div>
         </div>
         <div class="window-body">
           <div class="section-tag">OUR WORK</div>
@@ -982,6 +990,9 @@
             <div class="dot green"></div>
           </div>
           <div class="window-title">AIRBNB_BIZ.doc</div>
+          <div class="window-close" onclick="closeWindow('airbnb')">
+            &#10005;
+          </div>
         </div>
         <div class="window-body">
           <div class="section-tag">ANOTHER VENTURE</div>
@@ -1046,6 +1057,9 @@
             <div class="dot green"></div>
           </div>
           <div class="window-title">CONTACT.txt</div>
+          <div class="window-close" onclick="closeWindow('contact')">
+            &#10005;
+          </div>
         </div>
         <div class="window-body">
           <div class="section-tag">GET IN TOUCH</div>
@@ -1270,6 +1284,28 @@
           },
           { passive: true },
         );
+      });
+
+      // ESC to close active window
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          const wins = document.querySelectorAll('.window');
+          let topWin = null;
+          let topZ = 0;
+          wins.forEach((w) => {
+            if (w.style.display === 'block') {
+              const z = parseInt(w.style.zIndex) || 0;
+              if (z >= topZ) {
+                topZ = z;
+                topWin = w;
+              }
+            }
+          });
+          if (topWin) {
+            const name = topWin.id.replace('win-', '');
+            closeWindow(name);
+          }
+        }
       });
 
       // Click desktop to deselect
