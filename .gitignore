@@ -1,0 +1,7 @@
+*.docx
+*.pdf
+*.jpg
+!images/*.jpg
+*.txt
+*.png
+!images/*.png
