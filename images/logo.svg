@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80">
+  <defs>
+    <linearGradient id="dot-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff6b6b"/>
+      <stop offset="100%" stop-color="#ff8a65"/>
+    </linearGradient>
+  </defs>
+  <style>
+    text { font-family: 'Inter', 'Arial Black', sans-serif; font-weight: 900; }
+  </style>
+  <!-- ON -->
+  <text x="0" y="62" font-size="68" fill="#ffffff" letter-spacing="-2">ON</text>
+  <!-- Dot -->
+  <circle cx="138" cy="52" r="7" fill="url(#dot-grad)"/>
+  <!-- DA -->
+  <text x="152" y="62" font-size="68" fill="#ffffff" letter-spacing="-2">DA</text>
+</svg>

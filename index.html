@@ -3,143 +3,279 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#08080f" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23ff6b6b'/><text x='50' y='68' text-anchor='middle' font-size='52' font-weight='900' fill='white' font-family='Arial'>O</text></svg>" />
     <title>ONDA Marketing Agency</title>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
 
-      * {
+      *, *::before, *::after {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
 
       :root {
-        --bg: #1a1a2e;
-        --accent: #e94560;
-        --accent2: #0f3460;
-        --glass: rgba(255, 255, 255, 0.08);
-        --glass-border: rgba(255, 255, 255, 0.12);
-        --text: #f0f0f0;
-        --text-dim: rgba(255, 255, 255, 0.5);
-        --window-bg: rgba(20, 20, 40, 0.92);
-        --taskbar: rgba(10, 10, 25, 0.85);
+        --bg: #08080f;
+        --accent: #ff6b6b;
+        --accent-deep: #e85d5d;
+        --accent-glow: rgba(255, 107, 107, 0.12);
+        --accent2: #4a9eff;
+        --glass: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.07);
+        --text: #e8e8ec;
+        --text-dim: rgba(255, 255, 255, 0.4);
+        --text-mid: rgba(255, 255, 255, 0.6);
+        --surface: rgba(255, 255, 255, 0.03);
+        --surface-hover: rgba(255, 255, 255, 0.06);
+        --window-bg: rgba(14, 14, 24, 0.94);
+        --taskbar: rgba(10, 10, 18, 0.85);
+        --radius: 14px;
+        --transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      html {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
       }
 
       body {
-        font-family: 'Noto Sans KR', 'Inter', sans-serif;
+        font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
         background: var(--bg);
         color: var(--text);
         overflow: hidden;
         height: 100vh;
         width: 100vw;
         user-select: none;
+        letter-spacing: -0.01em;
       }
 
-      /* === BOOT SCREEN === */
+      ::selection {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      /* === LOGIN SCREEN === */
       #boot-screen {
         position: fixed;
         inset: 0;
-        background: #0a0a1a;
+        background: #04040a;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         z-index: 9999;
-        transition:
-          opacity 0.8s ease,
-          visibility 0.8s ease;
+        transition: opacity 1s ease, visibility 1s ease;
+        overflow: hidden;
+      }
+      #boot-screen::before {
+        content: '';
+        position: absolute;
+        width: 800px;
+        height: 800px;
+        background: radial-gradient(circle, rgba(255,107,107,0.06) 0%, transparent 70%);
+        top: -200px;
+        right: -200px;
+        animation: floatOrb 8s ease-in-out infinite;
+      }
+      #boot-screen::after {
+        content: '';
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(15,52,96,0.08) 0%, transparent 70%);
+        bottom: -100px;
+        left: -100px;
+        animation: floatOrb 10s ease-in-out infinite reverse;
+      }
+      @keyframes floatOrb {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(30px, -20px) scale(1.1); }
       }
       #boot-screen.hidden {
         opacity: 0;
         visibility: hidden;
       }
-      #boot-screen .logo-text {
-        font-size: 64px;
-        font-weight: 900;
-        letter-spacing: 12px;
+      .login-box {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+      }
+      .login-avatar {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center top;
+        border: 3px solid rgba(255,255,255,0.1);
+        margin-bottom: 20px;
+        box-shadow: 0 0 40px rgba(255,107,107,0.15);
+        animation: avatarPulse 3s ease-in-out infinite;
+      }
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20% { transform: translateX(-8px); }
+        40% { transform: translateX(8px); }
+        60% { transform: translateX(-5px); }
+        80% { transform: translateX(5px); }
+      }
+      @keyframes avatarPulse {
+        0%, 100% { box-shadow: 0 0 40px rgba(255,107,107,0.15); }
+        50% { box-shadow: 0 0 60px rgba(255,107,107,0.25), 0 0 80px rgba(255,107,107,0.08); }
+      }
+      .login-name {
+        font-size: 18px;
+        font-weight: 600;
         color: #fff;
-        margin-bottom: 40px;
+        margin-bottom: 6px;
+        letter-spacing: 1px;
       }
-      #boot-screen .logo-text span {
-        color: var(--accent);
-      }
-      #boot-screen .boot-bar {
-        width: 300px;
-        height: 3px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 3px;
-        overflow: hidden;
-      }
-      #boot-screen .boot-fill {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, var(--accent), #ff6b6b);
-        border-radius: 3px;
-        animation: bootLoad 2s ease forwards;
-      }
-      @keyframes bootLoad {
-        to {
-          width: 100%;
-        }
-      }
-      #boot-screen .boot-text {
-        margin-top: 16px;
-        font-size: 12px;
+      .login-role {
+        font-size: 11px;
         color: var(--text-dim);
         letter-spacing: 3px;
         text-transform: uppercase;
+        margin-bottom: 28px;
+      }
+      .login-input-wrap {
+        position: relative;
+        width: 280px;
+        margin-bottom: 20px;
+      }
+      .login-input {
+        width: 100%;
+        padding: 12px 44px 12px 18px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 28px;
+        color: #fff;
+        font-size: 14px;
+        outline: none;
+        font-family: inherit;
+        letter-spacing: 4px;
+        transition: border-color 0.3s;
+      }
+      .login-input:focus {
+        border-color: var(--accent);
+      }
+      .login-input::placeholder {
+        color: rgba(255,255,255,0.25);
+        letter-spacing: 1px;
+        font-size: 12px;
+      }
+      .login-btn {
+        position: absolute;
+        right: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--accent);
+        border: none;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+      }
+      .login-btn:hover {
+        background: #ff5a75;
+        transform: translateY(-50%) scale(1.1);
+      }
+      .login-hint {
+        font-size: 11px;
+        color: rgba(255,255,255,0.2);
+        margin-top: 8px;
+      }
+      .login-time {
+        position: absolute;
+        top: 50px;
+        font-size: 64px;
+        font-weight: 200;
+        color: rgba(255,255,255,0.8);
+        letter-spacing: 4px;
+        z-index: 2;
+      }
+      .login-date {
+        position: absolute;
+        top: 130px;
+        font-size: 14px;
+        color: rgba(255,255,255,0.3);
+        letter-spacing: 2px;
+        z-index: 2;
       }
 
       /* === WALLPAPER === */
       #desktop {
         position: fixed;
         inset: 0;
-        background: linear-gradient(
-          135deg,
-          #0a0a2e 0%,
-          #16213e 40%,
-          #1a1a3e 70%,
-          #0f0f2e 100%
-        );
+        background: linear-gradient(160deg, #06060e 0%, #0c1220 35%, #111828 60%, #080a12 100%);
         overflow: hidden;
       }
       #desktop::before {
         content: '';
         position: absolute;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(
-          circle,
-          rgba(233, 69, 96, 0.08) 0%,
-          transparent 70%
-        );
-        top: 10%;
-        left: 60%;
+        width: 800px;
+        height: 800px;
+        background: radial-gradient(circle, rgba(255,107,107,0.05) 0%, transparent 70%);
+        top: -10%;
+        right: -5%;
         pointer-events: none;
+        animation: floatOrb 12s ease-in-out infinite;
       }
       #desktop::after {
         content: '';
         position: absolute;
-        width: 500px;
-        height: 500px;
-        background: radial-gradient(
-          circle,
-          rgba(15, 52, 96, 0.15) 0%,
-          transparent 70%
-        );
-        bottom: 20%;
-        left: 10%;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(circle, rgba(15,52,96,0.1) 0%, transparent 70%);
+        bottom: -15%;
+        left: -5%;
         pointer-events: none;
+        animation: floatOrb 15s ease-in-out infinite reverse;
+      }
+      #particles {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: rgba(255,255,255,0.12);
+        border-radius: 50%;
+        animation: drift linear infinite;
+      }
+      @keyframes drift {
+        0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(-10vh) translateX(40px); opacity: 0; }
+      }
+      .grid-overlay {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+        background-size: 60px 60px;
+        pointer-events: none;
+        z-index: 1;
       }
 
       /* === DESKTOP ICONS === */
       #icons {
         position: absolute;
-        top: 30px;
-        left: 30px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
+        top: 40px;
+        left: 20px;
+        width: calc(100vw - 40px);
+        height: calc(100vh - 120px);
         z-index: 10;
       }
       .desktop-icon {
@@ -148,15 +284,17 @@
         align-items: center;
         width: 90px;
         padding: 10px 6px;
-        border-radius: 8px;
+        border-radius: 10px;
         cursor: pointer;
-        transition: background 0.2s;
+        transition: all 0.25s;
       }
       .desktop-icon:hover {
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.06);
+        transform: scale(1.05);
       }
       .desktop-icon:active {
-        background: rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.1);
+        transform: scale(0.98);
       }
       .icon-img {
         width: 52px;
@@ -182,26 +320,27 @@
         position: absolute;
         min-width: 420px;
         min-height: 300px;
-        background: var(--window-bg);
-        backdrop-filter: blur(40px);
-        -webkit-backdrop-filter: blur(40px);
-        border: 1px solid var(--glass-border);
-        border-radius: 12px;
+        background: rgba(12, 12, 22, 0.92);
+        backdrop-filter: blur(50px) saturate(1.2);
+        -webkit-backdrop-filter: blur(50px) saturate(1.2);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
         overflow: hidden;
         box-shadow:
-          0 25px 60px rgba(0, 0, 0, 0.5),
-          0 0 0 1px rgba(255, 255, 255, 0.05);
+          0 30px 80px rgba(0, 0, 0, 0.6),
+          0 0 0 1px rgba(255, 255, 255, 0.04),
+          inset 0 1px 0 rgba(255, 255, 255, 0.06);
         display: none;
         z-index: 100;
-        animation: windowOpen 0.3s ease;
+        animation: windowOpen 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       }
       @keyframes windowOpen {
         from {
-          transform: scale(0.92);
+          transform: scale(0.88) translateY(10px);
           opacity: 0;
         }
         to {
-          transform: scale(1);
+          transform: scale(1) translateY(0);
           opacity: 1;
         }
       }
@@ -236,13 +375,13 @@
         filter: brightness(1.3);
       }
       .dot.red {
-        background: #ff5f57;
+        background: #ff6259;
       }
       .dot.yellow {
-        background: #febc2e;
+        background: #ffbd2e;
       }
       .dot.green {
-        background: #28c840;
+        background: #27c93f;
       }
       .window-title {
         font-size: 13px;
@@ -251,7 +390,12 @@
         flex: 1;
         text-align: center;
       }
-      .window-close {
+      .window-controls {
+        display: flex;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+      .window-maximize, .window-close {
         width: 28px;
         height: 28px;
         display: flex;
@@ -260,47 +404,60 @@
         border-radius: 6px;
         cursor: pointer;
         color: rgba(255, 255, 255, 0.4);
-        font-size: 16px;
+        font-size: 14px;
         transition: all 0.2s;
         flex-shrink: 0;
       }
+      .window-maximize:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+      }
       .window-close:hover {
         background: rgba(255, 80, 80, 0.3);
-        color: #ff5f57;
+        color: #ff6259;
       }
       .window-body {
-        padding: 30px;
+        padding: 32px;
         overflow-y: auto;
         max-height: calc(100vh - 160px);
+        scroll-behavior: smooth;
+      }
+      .window[data-fullscreen="true"] .window-body {
+        max-width: 800px;
+        margin: 0 auto;
+        max-height: calc(100vh - 110px);
       }
       .window-body::-webkit-scrollbar {
-        width: 6px;
+        width: 5px;
       }
       .window-body::-webkit-scrollbar-track {
         background: transparent;
       }
       .window-body::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+      }
+      .window-body::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.2);
       }
 
       /* === TASKBAR === */
       #taskbar {
         position: fixed;
-        bottom: 10px;
+        bottom: 12px;
         left: 50%;
         transform: translateX(-50%);
-        background: var(--taskbar);
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
-        padding: 6px 12px;
+        background: rgba(8, 8, 22, 0.75);
+        backdrop-filter: blur(40px) saturate(1.3);
+        -webkit-backdrop-filter: blur(40px) saturate(1.3);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 18px;
+        padding: 7px 14px;
         display: flex;
         align-items: center;
         gap: 4px;
         z-index: 500;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.04);
       }
       .taskbar-icon {
         width: 48px;
@@ -350,11 +507,11 @@
         top: 0;
         left: 0;
         right: 0;
-        height: 30px;
-        background: rgba(10, 10, 25, 0.7);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        height: 32px;
+        background: rgba(8, 8, 20, 0.8);
+        backdrop-filter: blur(30px) saturate(1.2);
+        -webkit-backdrop-filter: blur(30px) saturate(1.2);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         display: flex;
         align-items: center;
         padding: 0 16px;
@@ -372,9 +529,24 @@
         cursor: pointer;
         font-weight: 400;
         font-size: 13px;
+        transition: color 0.2s;
+        position: relative;
       }
       #menu-bar .menu-item:hover {
         color: #fff;
+      }
+      #menu-bar .menu-item::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--accent);
+        transition: width 0.3s;
+      }
+      #menu-bar .menu-item:hover::after {
+        width: 100%;
       }
 
       /* === CONTENT STYLES === */
@@ -382,21 +554,34 @@
         display: inline-block;
         font-size: 10px;
         font-weight: 700;
-        letter-spacing: 3px;
+        letter-spacing: 4px;
         text-transform: uppercase;
         color: var(--accent);
-        margin-bottom: 12px;
+        margin-bottom: 14px;
+        position: relative;
+        padding-left: 16px;
+      }
+      .section-tag::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 8px;
+        height: 2px;
+        background: var(--accent);
       }
       .section-title {
-        font-size: 28px;
+        font-size: 26px;
         font-weight: 800;
-        line-height: 1.3;
-        margin-bottom: 16px;
+        line-height: 1.35;
+        margin-bottom: 18px;
+        letter-spacing: -0.02em;
       }
       .section-desc {
         font-size: 14px;
-        line-height: 1.8;
-        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.9;
+        color: var(--text-mid);
         margin-bottom: 24px;
       }
       .highlight {
@@ -418,9 +603,10 @@
         transition: all 0.3s;
       }
       .service-card:hover {
-        background: rgba(255, 255, 255, 0.07);
+        background: rgba(233, 69, 96, 0.06);
         border-color: var(--accent);
-        transform: translateY(-2px);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(233, 69, 96, 0.1);
       }
       .service-num {
         font-size: 11px;
@@ -447,16 +633,30 @@
         margin-top: 16px;
       }
       .portfolio-item {
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 12px;
         padding: 18px;
-        transition: all 0.3s;
+        transition: all 0.35s var(--transition);
         cursor: default;
+        position: relative;
+        overflow: hidden;
+      }
+      .portfolio-item::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255,107,107,0.08), transparent 60%);
+        opacity: 0;
+        transition: opacity 0.35s;
       }
       .portfolio-item:hover {
-        background: rgba(233, 69, 96, 0.06);
-        border-color: rgba(233, 69, 96, 0.3);
+        border-color: rgba(233, 69, 96, 0.25);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+      }
+      .portfolio-item:hover::before {
+        opacity: 1;
       }
       .portfolio-item .p-name {
         font-size: 14px;
@@ -483,21 +683,29 @@
       }
       .stat-box {
         flex: 1;
-        background: rgba(255, 255, 255, 0.04);
+        background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
         border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 10px;
-        padding: 18px;
+        border-radius: 12px;
+        padding: 22px 18px;
         text-align: center;
+        transition: all 0.3s;
+      }
+      .stat-box:hover {
+        border-color: rgba(255,107,107,0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
       }
       .stat-num {
-        font-size: 28px;
+        font-size: 30px;
         font-weight: 900;
         color: var(--accent);
-        margin-bottom: 4px;
+        margin-bottom: 6px;
+        letter-spacing: -0.5px;
       }
       .stat-label {
         font-size: 11px;
         color: var(--text-dim);
+        letter-spacing: 0.5px;
       }
 
       .airbnb-grid {
@@ -533,6 +741,95 @@
         line-height: 1.7;
       }
 
+      /* === RECRUIT === */
+      .recruit-highlight {
+        background: linear-gradient(135deg, rgba(255,107,107,0.06), rgba(15,52,96,0.06));
+        border: 1px solid rgba(255,107,107,0.15);
+        border-radius: 14px;
+        padding: 24px;
+        margin: 16px 0;
+        transition: all 0.3s;
+      }
+      .recruit-highlight:hover {
+        border-color: rgba(255,107,107,0.35);
+        box-shadow: 0 4px 20px rgba(255,107,107,0.08);
+      }
+      .recruit-highlight .rh-title {
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--accent);
+      }
+      .recruit-highlight .rh-desc {
+        font-size: 13px;
+        color: rgba(255,255,255,0.7);
+        line-height: 1.8;
+      }
+      .benefit-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 16px 0;
+      }
+      .benefit-card {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        transition: all 0.3s;
+      }
+      .benefit-card:hover {
+        background: rgba(255,255,255,0.06);
+        transform: translateY(-3px);
+        border-color: rgba(255,255,255,0.12);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      }
+      .benefit-icon {
+        font-size: 28px;
+        margin-bottom: 8px;
+      }
+      .benefit-name {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .benefit-desc {
+        font-size: 11px;
+        color: var(--text-dim);
+        line-height: 1.6;
+      }
+      .timeline {
+        position: relative;
+        padding-left: 20px;
+        border-left: 2px solid rgba(255,107,107,0.3);
+        margin: 16px 0;
+      }
+      .timeline-item {
+        margin-bottom: 14px;
+        position: relative;
+      }
+      .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -25px;
+        top: 6px;
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
+      }
+      .timeline-year {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .timeline-desc {
+        font-size: 12px;
+        color: rgba(255,255,255,0.6);
+        line-height: 1.6;
+      }
+
       .contact-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -540,10 +837,15 @@
         margin-top: 20px;
       }
       .contact-item {
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 12px;
         padding: 20px;
+        transition: all 0.3s;
+      }
+      .contact-item:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255,255,255,0.12);
       }
       .contact-label {
         font-size: 11px;
@@ -559,22 +861,93 @@
         line-height: 1.6;
       }
 
+      /* === PROFILE === */
+      .profile-section {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+      .profile-img {
+        width: 160px;
+        height: 200px;
+        border-radius: 14px;
+        object-fit: cover;
+        object-position: center top;
+        border: 2px solid rgba(255, 255, 255, 0.08);
+        flex-shrink: 0;
+        transition: all 0.4s;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      }
+      .profile-img:hover {
+        border-color: var(--accent);
+        box-shadow: 0 12px 40px rgba(255,107,107,0.15);
+        transform: scale(1.02);
+      }
+      .profile-info {
+        flex: 1;
+      }
+      .profile-name {
+        font-size: 22px;
+        font-weight: 800;
+        margin-bottom: 4px;
+      }
+      .profile-role {
+        font-size: 13px;
+        color: var(--accent);
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+      }
+      .profile-desc {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 1.8;
+      }
+
+      /* === PORTFOLIO IMAGE === */
+      .portfolio-item {
+        overflow: hidden;
+        padding: 0;
+      }
+      .portfolio-thumb {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        display: block;
+      }
+      .portfolio-text {
+        padding: 16px 18px;
+      }
+
       .quote-block {
         border-left: 3px solid var(--accent);
-        padding: 16px 20px;
-        margin: 20px 0;
-        background: rgba(233, 69, 96, 0.05);
-        border-radius: 0 8px 8px 0;
+        padding: 20px 24px;
+        margin: 24px 0;
+        background: linear-gradient(135deg, rgba(255,107,107,0.06), rgba(15,52,96,0.04));
+        border-radius: 0 12px 12px 0;
         font-size: 16px;
         font-weight: 600;
-        line-height: 1.6;
+        line-height: 1.7;
         color: rgba(255, 255, 255, 0.85);
+        position: relative;
+        overflow: hidden;
+      }
+      .quote-block::after {
+        content: '"';
+        position: absolute;
+        right: 16px;
+        top: -8px;
+        font-size: 80px;
+        color: rgba(233, 69, 96, 0.08);
+        font-family: Georgia, serif;
+        line-height: 1;
       }
 
       .divider {
         height: 1px;
-        background: rgba(255, 255, 255, 0.08);
-        margin: 24px 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 80%, transparent);
+        margin: 32px 0;
       }
 
       /* === MOBILE === */
@@ -625,6 +998,20 @@
           flex-direction: column;
           gap: 10px;
         }
+        .profile-section {
+          flex-direction: column;
+          text-align: center;
+        }
+        .profile-img {
+          width: 120px;
+          height: 150px;
+        }
+        .portfolio-thumb {
+          height: 110px;
+        }
+        .benefit-grid {
+          grid-template-columns: 1fr;
+        }
         .section-title {
           font-size: 22px;
         }
@@ -645,16 +1032,25 @@
     </style>
   </head>
   <body>
-    <!-- BOOT SCREEN -->
+    <!-- LOGIN SCREEN -->
     <div id="boot-screen">
-      <div class="logo-text">ON<span>.</span>DA</div>
-      <div class="boot-bar"><div class="boot-fill"></div></div>
-      <div class="boot-text">Loading ONDA OS...</div>
+      <div class="login-time" id="login-time"></div>
+      <div class="login-date" id="login-date"></div>
+      <div class="login-box">
+        <img src="images/logo.svg" alt="ONDA" style="width: 200px; margin-bottom: 24px; filter: drop-shadow(0 0 30px rgba(255,107,107,0.2));" />
+        <div class="login-role">Performance Marketing Agency</div>
+        <div class="login-input-wrap">
+          <input type="password" class="login-input" id="login-input" placeholder="Enter password..." autofocus />
+          <button class="login-btn" id="login-btn">&#10140;</button>
+        </div>
+        <div class="login-hint">Password required to access</div>
+      </div>
     </div>
 
     <!-- MENU BAR -->
     <div id="menu-bar">
-      <span class="brand">ONDA</span>
+      <img src="images/logo.svg" alt="ONDA" style="height: 16px; margin-right: 20px; filter: brightness(1);" />
+      <span class="menu-item" onclick="openWindow('recruit')" style="color: var(--accent); font-weight: 600;">Join Us</span>
       <span class="menu-item" onclick="openWindow('about')">About</span>
       <span class="menu-item" onclick="openWindow('services')">Services</span>
       <span class="menu-item" onclick="openWindow('portfolio')">Portfolio</span>
@@ -665,8 +1061,18 @@
 
     <!-- DESKTOP -->
     <div id="desktop">
+      <div class="grid-overlay"></div>
+      <div id="particles"></div>
       <!-- Icons -->
       <div id="icons">
+        <div
+          class="desktop-icon"
+          ondblclick="openWindow('recruit')"
+          onclick="selectIcon(this)"
+        >
+          <div class="icon-img">&#128640;</div>
+          <div class="icon-label">JOIN_ONDA.exe</div>
+        </div>
         <div
           class="desktop-icon"
           ondblclick="openWindow('about')"
@@ -722,20 +1128,85 @@
             <div class="dot green"></div>
           </div>
           <div class="window-title">ABOUT_ONDA.txt</div>
-          <div class="window-close" onclick="closeWindow('about')">
-            &#10005;
+          <div class="window-controls">
+            <div class="window-maximize" onclick="toggleFullscreen('about')" title="전체화면">&#9634;</div>
+            <div class="window-close" onclick="closeWindow('about')">&#10005;</div>
           </div>
         </div>
         <div class="window-body">
           <div class="section-tag">WHO WE ARE</div>
           <div class="section-title">작지만 강하다.</div>
+
+          <div class="profile-section">
+            <img src="images/profile.jpg" alt="김예닮 대표" class="profile-img" />
+            <div class="profile-info">
+              <div class="profile-name">김예닮</div>
+              <div class="profile-role">CEO &amp; FOUNDER</div>
+              <div class="profile-desc">
+                N사 공식대행사 직원에서 기획파트장, 개발팀까지 — 디자이너이자 카피라이터, 마케터.<br />
+                19살에 업계에 발을 들여 쇼핑몰 대표, 마케팅 강사, UX/UI 디자이너, 기획자로 영역을 넓혀가며
+                지금은 <span class="highlight">온다마케팅 대표이사</span>로 활동하고 있습니다.
+              </div>
+            </div>
+          </div>
+
           <div class="section-desc">
-            온다마케팅은
-            <span class="highlight"
-              >스페셜리스트로 구성된 퍼포먼스 마케팅 에이전시</span
-            >입니다.<br />
-            우리는 우리 스스로를 마케팅하고, 그 가치를 알아보는 클라이언트와
-            함께 동반 성장하는 것을 목표로 합니다.
+            반갑습니다. 김예닮입니다. 온라인 마케터, 기획을 함께하며 경영자로 역할을 하고 있습니다.
+            마케팅을 시작하게 된 건 19살 때 N,G,K사 공식대행사에 입사하게 되면서 눈을 뜨게 되었습니다.
+            그렇게 처음으로 업계에 발을 들이고, 이후 쇼핑몰 대표, 마케팅 강사, UX/UI 디자이너, 기획자 등으로
+            영역을 넓혀가며 현재는 ONDA의 대표로서 활동하고 있습니다.
+          </div>
+
+          <div class="stat-row">
+            <div class="stat-box">
+              <div class="stat-num">28억</div>
+              <div class="stat-label">월 평균 매출 소재</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num">933%</div>
+              <div class="stat-label">스마트스토어 ROAS</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num">471회</div>
+              <div class="stat-label">디자인 공모 우승</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num">700+</div>
+              <div class="stat-label">누적 클라이언트</div>
+            </div>
+          </div>
+
+          <div class="section-desc" style="font-size: 12px; color: var(--text-dim); line-height: 2;">
+            &#127942; 2020-2021 K-AWARDS 대상 (마케팅 컨설팅 MASTER 등급)<br />
+            &#127912; 디자인 로고 제작 공모 471회 우승 (CI, BI 분야)<br />
+            &#128176; 단일 브랜드 매출 13억, 전체 월 평균 매출 28억 소재 다수<br />
+            &#128177; CPA — 삼O화재, 심O치과의원, 법무법인 O함 등<br />
+            &#128241; 아동 학습 산수 앱 런칭 및 다운로드 누적 3만 건<br />
+            &#128187; N사 스마트스토어 2개 운영, ROAS 933% 달성<br />
+            &#128214; 플레이스, 블로그 전자책 PDF 1,300건 이상 판매<br />
+            &#127891; 카피라이팅, 네이미스트 교육 다수 진행
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-tag">INTERVIEW</div>
+          <div class="section-title">수많은 대행사가 있는데,<br />시작하신 계기가 궁금합니다.</div>
+          <div class="section-desc">
+            한때 저도 교육과 이론만으로 접했던 마케팅을 중점으로 퍼포먼스에 혈안이 되었던 사람이었습니다.
+            항상 무조건적인 ROAS, 성과 중심이 전부일 거라 생각했었죠.<br /><br />
+            지금에서야 느끼지만 그때는 시야가 넓지 못했고, 소속된 직원이 느낄 수 있는 마케팅은 제한되었던 것 같아요.
+            꾸준히 영역을 넓혀가고 닥치는 대로 많은 강의와 서적들을 체화시키고, 그것들을 실무에 입혀보며
+            <span class="highlight">기존 대행사들과 중·소상공인의 괴리</span>가 느껴지는 순간들이 많았습니다.<br /><br />
+            온다마케팅은 그런 클라이언트의 불편함을 해결하기 위해 누적되었던 경험치를 토대로 시작되었고,
+            지금도 정말 꾸준하게 소개해주시고 영업하지 않음에도 문의가 이어지는 건 시장이 그만큼 많이 달라졌다는 반증이겠죠.
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-tag">PHILOSOPHY</div>
+          <div class="section-title">광고대행사가 아닙니다.</div>
+          <div class="section-desc">
+            온다마케팅은 현재 꼭 필요한 광고만 기획·구성해주는 국내 최초 <span class="highlight">'맞춤형 기획실행사'</span>입니다.
           </div>
 
           <div class="quote-block">
@@ -743,26 +1214,101 @@
             "설득 당했기 때문입니다."
           </div>
 
-          <div class="divider"></div>
-
-          <div class="section-tag">PHILOSOPHY</div>
-          <div class="section-title">마케팅의 본질은 설득입니다.</div>
           <div class="section-desc">
-            고객을 설득시키지 못한다면 선택 받을 수 없습니다.<br />
-            그러니 우리의 목적은
-            <span class="highlight">노출이 아니라, 선택</span>이 되어야
-            합니다.<br /><br />
-            당신이 우리에게 설득 당했듯이,<br />
-            <strong>당신의 고객도 그러할 것입니다.</strong>
+            광고대행사의 현재 생태를 살펴보면, 이미 굵직한 고객사를 보유하고 있는 직원에게 고액의 연봉을 제시해주는 회사,
+            듣기 좋은 영업 스킬로 계약은 성사시키지만 광고주의 사업 성장 자체에는 크게 관심을 두지 않는 회사로 나눠볼 수 있습니다.<br /><br />
+            비용 지불하고 매체사에 노출시키면 단기적인 매출은 올라갈 수 있어도, 길게 보았을 때 광고주와의 성공과는 점차 멀어지고
+            매체사의 순위에서 우위를 점하기 위해 <span class="highlight">실적에만 잘 보일 수밖에 없는 것</span>이 현재 대행사의 숙명과도 같습니다.<br /><br />
+            진짜 기획을 통해 고객을 설득시키고, 가치를 올려주는 것보다 듣기 좋은 영업 스킬이 현재의 일반적인 대행사의 상황이죠.
+          </div>
+
+          <div class="recruit-highlight">
+            <div class="rh-title">온다마케팅은 다릅니다.</div>
+            <div class="rh-desc">
+              이런 모순을 해결하고자 <strong>영업을 하지 않는 체계</strong>로 운영하며,
+              영업 수당·건수에 혈안 되어 눈먼 돈은 얼마 못 간다는 생각으로
+              사업 성장에 집중하여 심도 있는 기획까지 함께 잡아주는 것이 차이라 볼 수 있습니다.<br /><br />
+              그러니 우리의 목적은 <strong>노출이 아니라, 선택</strong>이 되어야 합니다.<br />
+              당신이 우리에게 설득 당했듯이, 당신의 고객도 그러할 것입니다.
+            </div>
           </div>
 
           <div class="divider"></div>
 
-          <div
-            class="section-desc"
-            style="font-size: 13px; text-align: center; color: var(--text-dim)"
-          >
-            그 여정에 함께할 '파트너'를 언제나 기다리고 있습니다.
+          <div class="section-tag">NEW DIRECTION</div>
+          <div class="section-title">그럼 새로운 방향의 시도였을 텐데,<br />쉽진 않으셨겠어요.</div>
+          <div class="section-desc">
+            네, 물론 기존 대행사를 다니며 저를 찾아와 주신 클라이언트와 온다마케팅이 추구하는 워크플로우에 대해서
+            결이 다르진 않을까 걱정이 있었습니다.<br /><br />
+            그러나 그런 걱정은 얼마 지나지 않아 고객 매출의 <span class="highlight">J-CURVE 상승</span>으로 확신을 하였습니다.<br /><br />
+            이후 지속해서 마케팅 솔루션 개발, 제휴마케팅으로 정부사업, 대기업, 스타트업 등의
+            아웃소싱을 전담 및 서포트를 <strong>60건 가량 진행</strong>해온 바 있습니다.
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-tag">OUR BELIEF</div>
+          <div class="section-title">마라톤과 같습니다.</div>
+          <div class="section-desc">
+            찍어내는 공장처럼 저가형 마케팅 회사는 너무 많습니다.
+            그만큼 퀄리티가 낮아 안 하느니만 못한 결과로 이어지기도 하죠.<br /><br />
+            사업은 단기적인 매출을 뽑는 게 아니라 <strong>장기적으로 성장해나가는 마라톤</strong>과 같습니다.
+            어떤 업체를 선택할지에 따라 그 방향을 좌지우지 하게 됩니다.<br /><br />
+            저희 회사, 광고주, 고객이 전부 유기적으로 도움이 되는 선순환이 될 수 있다고 믿습니다.
+          </div>
+
+          <div class="quote-block">
+            클라이언트의 성장, 성공이 곧 저희의 원동력입니다.<br />
+            <strong>성공에 함께 서 있겠습니다.</strong>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-tag">ONDA VENTURES</div>
+          <div class="section-title">온다마케팅이 운영하는 사업들</div>
+          <div class="section-desc" style="margin-bottom: 16px;">
+            온다마케팅은 단일 에이전시가 아닙니다.<br />
+            대표가 직접 다양한 사업을 운영하며 축적한 실전 노하우를<br />
+            모든 클라이언트와 팀원에게 공유합니다.
+          </div>
+
+          <div class="service-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="service-card">
+              <div class="service-num">01</div>
+              <div class="service-name">온다마케팅</div>
+              <div class="service-list">
+                풀퍼널 마케팅 에이전시<br />
+                콘텐츠 기획 · 퍼포먼스 · 바이럴<br />
+                브랜드 런칭 A to Z · 해외마케팅
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="service-num">02</div>
+              <div class="service-name">SEO소프트</div>
+              <div class="service-list">
+                구글 공식 프리미어 네임택 제공<br />
+                고품질 DA 백링크 · 검색 상단 게재<br />
+                반영구적 오가닉 트래픽 확보
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="service-num">03</div>
+              <div class="service-name">든든자금협회</div>
+              <div class="service-list">
+                중소기업 · 소상공인 정책자금 컨설팅<br />
+                데이터 기반 승인 전략 수립<br />
+                전직 심사역 네트워크 활용
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="service-num">04</div>
+              <div class="service-name">Airbnb 숙소 운영</div>
+              <div class="service-list">
+                일본 · 한국 에어비앤비 운영<br />
+                전환율 최적화 · 리뷰 전략<br />
+                크로스보더 마케팅 실전
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -783,52 +1329,108 @@
             <div class="dot green"></div>
           </div>
           <div class="window-title">SERVICES.pdf</div>
-          <div class="window-close" onclick="closeWindow('services')">
-            &#10005;
+          <div class="window-controls">
+            <div class="window-maximize" onclick="toggleFullscreen('services')" title="전체화면">&#9634;</div>
+            <div class="window-close" onclick="closeWindow('services')">&#10005;</div>
           </div>
         </div>
         <div class="window-body">
-          <div class="section-tag">WHAT WE DO</div>
-          <div class="section-title">3가지 핵심 마케팅 솔루션</div>
+          <div class="section-tag">INSIGHT</div>
+          <div class="section-title">
+            카피보다 중요한 건<br />'본질을 파악하는 눈'입니다.
+          </div>
           <div class="section-desc">
-            다각적 분석과 데이터를 기반으로 꼭 필요한 마케팅 솔루션을
-            제시합니다.
+            잘나가 보이는 콘텐츠를 그대로 따라 한다고 똑같이 성공할 수
+            있을까요?<br /><br />
+            업체에게 필요한 것은 보여주기식 콘텐츠가 아닙니다.<br />
+            현재 상황을 객관적으로 보고 부족한 부분을 채우면서<br />
+            <span class="highlight">기획을 구성하여 만드는 브랜딩</span>이
+            비로소 매출과 이어지는 마케팅입니다.
           </div>
 
-          <div class="service-grid">
+          <div class="divider"></div>
+
+          <div class="section-tag">WHAT WE DO</div>
+          <div class="section-title">4가지 핵심 마케팅 솔루션</div>
+
+          <div class="service-grid" style="grid-template-columns: 1fr 1fr">
             <div class="service-card">
               <div class="service-num">01</div>
-              <div class="service-name">콘텐츠 마케팅</div>
+              <div class="service-name">콘텐츠 기획·제작</div>
               <div class="service-list">
-                광고 소재 제작<br />
-                제품/영상 촬영<br />
-                카드뉴스 제작<br />
-                브랜디드 콘텐츠<br />
-                상세페이지 기획
+                광고 소재 / 영상 촬영<br />
+                카드뉴스 · 브랜디드 콘텐츠<br />
+                상세페이지 기획<br />
+                네이밍 · 카피라이팅
               </div>
             </div>
             <div class="service-card">
               <div class="service-num">02</div>
-              <div class="service-name">그로스 마케팅</div>
+              <div class="service-name">검색 최적화 (SEO)</div>
               <div class="service-list">
-                퍼포먼스 마케팅<br />
-                데이터 분석<br />
-                Meta (Facebook) Pixel<br />
-                Google Analytics<br />
-                Naver / Kakao 광고
+                네이버 · 구글 상위노출<br />
+                로직 분석 · 키워드 전략<br />
+                오픈마켓 쇼핑최적화<br />
+                브랜딩 블로그
               </div>
             </div>
             <div class="service-card">
               <div class="service-num">03</div>
-              <div class="service-name">바이럴 마케팅</div>
+              <div class="service-name">채널 관리 대행</div>
               <div class="service-list">
-                브랜딩 블로그<br />
-                블로그 체험단<br />
-                인플루언서 협찬<br />
-                오픈마켓 쇼핑최적화<br />
-                SEO 최적화
+                SNS 채널 운영<br />
+                블로그 체험단 · 인플루언서<br />
+                커뮤니티 · 리뷰 관리<br />
+                플랫폼별 감성 맞춤 전략
               </div>
             </div>
+            <div class="service-card">
+              <div class="service-num">04</div>
+              <div class="service-name">그로스 · 광고 운영</div>
+              <div class="service-list">
+                퍼포먼스 마케팅<br />
+                Meta Pixel · Google Analytics<br />
+                Naver / Kakao 광고<br />
+                데이터 기반 A/B 테스트
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-tag">CONTENT PHILOSOPHY</div>
+          <div class="section-title">공감이 곧 전환입니다.</div>
+          <div class="section-desc">
+            어떤 콘텐츠가 정답이라 할 수 있는 요소는 없습니다.<br /><br />
+            온다마케팅은 콘텐츠로 누군가의 이목을 끌고 감정을 변화시켜<br />
+            <span class="highlight">내 브랜드에 자연스럽게 이끄는 것</span>에
+            집중합니다.<br /><br />
+            비슷한 콘텐츠를 보더라도 어떤 소재는 클릭하게 되고, 어떤 건 거들떠도
+            안 보게 됩니다.<br />
+            그 차이는 바로 <strong>다양한 공감</strong>에 있습니다.
+          </div>
+
+          <div class="quote-block">
+            소비자의 구매를 결정하게 만드는 것은 제품에 대한 어필보다<br />
+            <strong>사용자 입장에서 공감을 먼저 만들어 내는 것</strong>입니다.
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-tag">AI ERA</div>
+          <div class="section-title">AI 시대, 마케팅은 더 본질로.</div>
+          <div class="section-desc">
+            AI가 콘텐츠를 생산하는 시대, 누구나 그럴듯한 결과물을 만들 수 있게
+            되었습니다.<br /><br />
+            하지만 AI가 대체할 수 없는 것이 있습니다.<br />
+            바로
+            <span class="highlight"
+              >고객의 맥락을 읽고, 공감을 설계하는 기획력</span
+            >입니다.<br /><br />
+            로직이 고도화될수록, 노하우 없이 노력만으로 매출로 이어지는 시대는
+            끝났습니다.<br />
+            온다마케팅은 AI를 도구로 활용하되,
+            <strong>사람만이 할 수 있는 기획과 설득</strong>에 집중합니다.
           </div>
 
           <div class="divider"></div>
@@ -861,17 +1463,22 @@
             <div class="dot green"></div>
           </div>
           <div class="window-title">PORTFOLIO</div>
-          <div class="window-close" onclick="closeWindow('portfolio')">
-            &#10005;
+          <div class="window-controls">
+            <div class="window-maximize" onclick="toggleFullscreen('portfolio')" title="전체화면">&#9634;</div>
+            <div class="window-close" onclick="closeWindow('portfolio')">&#10005;</div>
           </div>
         </div>
         <div class="window-body">
           <div class="section-tag">OUR WORK</div>
-          <div class="section-title">함께 성장한 파트너들</div>
+          <div class="section-title">숫자가 증명합니다.</div>
+          <div class="section-desc">
+            온다마케팅은 영업하지 않습니다.<br />
+            <span class="highlight">클라이언트의 성과</span>가 곧 우리의 영업입니다.
+          </div>
 
           <div class="stat-row">
             <div class="stat-box">
-              <div class="stat-num">20+</div>
+              <div class="stat-num">25+</div>
               <div class="stat-label">클라이언트</div>
             </div>
             <div class="stat-box">
@@ -886,94 +1493,222 @@
 
           <div class="portfolio-grid">
             <div class="portfolio-item">
-              <div class="p-name">제로페이</div>
-              <div class="p-name-en">ZEROPAY</div>
-              <div class="p-desc">
-                마케팅LINK 독점 계약, 소상공인 대상 마케팅 솔루션
+              <img
+                src="images/zeropay.png"
+                alt="제로페이"
+                class="portfolio-thumb"
+              />
+              <div class="portfolio-text">
+                <div class="p-name">제로페이</div>
+                <div class="p-name-en">ZEROPAY</div>
+                <div class="p-desc">
+                  마케팅LINK 독점 계약, 소상공인 대상 마케팅 솔루션
+                </div>
               </div>
             </div>
             <div class="portfolio-item">
-              <div class="p-name">픽서</div>
-              <div class="p-name-en">PIXER</div>
-              <div class="p-desc">
-                경추베개 카테고리 1위 달성, 구매 수량 제한 발생
+              <img src="images/pixer.png" alt="픽서" class="portfolio-thumb" />
+              <div class="portfolio-text">
+                <div class="p-name">픽서</div>
+                <div class="p-name-en">PIXER</div>
+                <div class="p-desc">
+                  경추베개 카테고리 1위 달성, 구매 수량 제한 발생
+                </div>
               </div>
             </div>
             <div class="portfolio-item">
-              <div class="p-name">우노</div>
-              <div class="p-name-en">UUNNO</div>
-              <div class="p-desc">
-                월 ROAS 2162%, 매출 200%+ 성장, 팔로워 1만명 증가
+              <img src="images/uunno.png" alt="우노" class="portfolio-thumb" />
+              <div class="portfolio-text">
+                <div class="p-name">우노</div>
+                <div class="p-name-en">UUNNO</div>
+                <div class="p-desc">
+                  월 ROAS 2162%, 매출 200%+ 성장, 팔로워 1만명 증가
+                </div>
               </div>
             </div>
             <div class="portfolio-item">
-              <div class="p-name">에모프</div>
-              <div class="p-name-en">EMOH-F</div>
-              <div class="p-desc">무드 중심 브랜딩, 주문량 400% 이상 증가</div>
-            </div>
-            <div class="portfolio-item">
-              <div class="p-name">아솜느</div>
-              <div class="p-name-en">ASOMN</div>
-              <div class="p-desc">
-                A to Z 브랜드 컨설팅, 웹/앱 디자인부터 마케팅까지
+              <img
+                src="images/emohf.png"
+                alt="에모프"
+                class="portfolio-thumb"
+              />
+              <div class="portfolio-text">
+                <div class="p-name">에모프</div>
+                <div class="p-name-en">EMOH-F</div>
+                <div class="p-desc">
+                  무드 중심 브랜딩, 주문량 400% 이상 증가
+                </div>
               </div>
             </div>
             <div class="portfolio-item">
-              <div class="p-name">데이</div>
-              <div class="p-name-en">THEY</div>
-              <div class="p-desc">런칭 전부터 함께, 모든 마케팅 전반 담당</div>
-            </div>
-            <div class="portfolio-item">
-              <div class="p-name">라라폴리</div>
-              <div class="p-name-en">LALAFOLIE</div>
-              <div class="p-desc">
-                자체 화장품 브랜드, 쿠팡 알로에수딩젤 1위
+              <img
+                src="images/asomn.png"
+                alt="아솜느"
+                class="portfolio-thumb"
+              />
+              <div class="portfolio-text">
+                <div class="p-name">아솜느</div>
+                <div class="p-name-en">ASOMN</div>
+                <div class="p-desc">
+                  A to Z 브랜드 컨설팅, 웹/앱 디자인부터 마케팅까지
+                </div>
               </div>
             </div>
             <div class="portfolio-item">
-              <div class="p-name">선비세상</div>
-              <div class="p-name-en">SUNBEE WORLD</div>
-              <div class="p-desc">
-                경북 영주시 관공서 프로젝트, A to Z 마케팅 총괄
+              <img src="images/they.png" alt="데이" class="portfolio-thumb" />
+              <div class="portfolio-text">
+                <div class="p-name">데이</div>
+                <div class="p-name-en">THEY</div>
+                <div class="p-desc">
+                  런칭 전부터 함께, 모든 마케팅 전반 담당
+                </div>
               </div>
             </div>
             <div class="portfolio-item">
-              <div class="p-name">데이제스트</div>
-              <div class="p-name-en">DAYGEST</div>
-              <div class="p-desc">
-                건강기능식품, SNS 운영 및 퍼포먼스 마케팅 전담
+              <img src="images/tambeauty.png" alt="탐뷰티" class="portfolio-thumb" style="object-fit: contain; background: #fff; padding: 20px;" />
+              <div class="portfolio-text">
+                <div class="p-name">탐뷰티</div>
+                <div class="p-name-en">TAM BEAUTY</div>
+                <div class="p-desc">글로벌 메가 인플루언서 '다샤 타란' 론칭 색조 브랜드, A to Z 마케팅 대행 및 해외 마케팅 진행</div>
               </div>
             </div>
             <div class="portfolio-item">
-              <div class="p-name">모던성형외과</div>
-              <div class="p-name-en">MODERN CLINIC</div>
-              <div class="p-desc">
-                코로나 시기 개원, 브랜드 블로그 및 네이버 광고
+              <img src="images/pyderin.png" alt="피더린" class="portfolio-thumb" style="object-fit: contain; background: #fff; padding: 20px;" />
+              <div class="portfolio-text">
+                <div class="p-name">피더린</div>
+                <div class="p-name-en">PYDERIN</div>
+                <div class="p-desc">PDRN 전문 스킨케어 브랜드, A to Z 마케팅 대행 및 해외 마케팅 진행, 배우 김지훈 모델 발탁</div>
               </div>
             </div>
             <div class="portfolio-item">
-              <div class="p-name">에브리띵크</div>
-              <div class="p-name-en">EVERYTHINK</div>
-              <div class="p-desc">와디즈 펀딩 이후 흑자 전환 성공</div>
-            </div>
-            <div class="portfolio-item">
-              <div class="p-name">리퀴덴트</div>
-              <div class="p-name-en">LIQUIDENT</div>
-              <div class="p-desc">
-                신개념 구강케어, SEO부터 모든 마케팅 전반 담당
+              <img
+                src="images/modern.png"
+                alt="모던성형외과"
+                class="portfolio-thumb"
+              />
+              <div class="portfolio-text">
+                <div class="p-name">모던성형외과</div>
+                <div class="p-name-en">MODERN CLINIC</div>
+                <div class="p-desc">
+                  코로나 시기 개원, 브랜드 블로그 및 네이버 광고
+                </div>
               </div>
             </div>
             <div class="portfolio-item">
-              <div class="p-name">동원천지인</div>
-              <div class="p-name-en">DONGWON</div>
-              <div class="p-desc">채널/캠페인 운영, 체험단 및 이벤트 관리</div>
+              <img
+                src="images/everythink.png"
+                alt="에브리띵크"
+                class="portfolio-thumb"
+              />
+              <div class="portfolio-text">
+                <div class="p-name">에브리띵크</div>
+                <div class="p-name-en">EVERYTHINK</div>
+                <div class="p-desc">와디즈 펀딩 이후 흑자 전환 성공</div>
+              </div>
             </div>
             <div class="portfolio-item">
-              <div class="p-name">겐로쿠우동</div>
-              <div class="p-name-en">GENROKU</div>
-              <div class="p-desc">마약조합 레시피 개발, 객단가 상승 컨설팅</div>
+              <img
+                src="images/liquident.png"
+                alt="리퀴덴트"
+                class="portfolio-thumb"
+              />
+              <div class="portfolio-text">
+                <div class="p-name">리퀴덴트</div>
+                <div class="p-name-en">LIQUIDENT</div>
+                <div class="p-desc">
+                  신개념 구강케어, SEO부터 모든 마케팅 전반 담당
+                </div>
+              </div>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="images/lalafolie.png"
+                alt="라라폴리"
+                class="portfolio-thumb"
+              />
+              <div class="portfolio-text">
+                <div class="p-name">라라폴리</div>
+                <div class="p-name-en">LALAFOLIE</div>
+                <div class="p-desc">
+                  자체 화장품 브랜드, 쿠팡 알로에수딩젤 1위
+                </div>
+              </div>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="images/sunbee.png"
+                alt="선비세상"
+                class="portfolio-thumb"
+              />
+              <div class="portfolio-text">
+                <div class="p-name">선비세상</div>
+                <div class="p-name-en">SUNBEE WORLD</div>
+                <div class="p-desc">
+                  경북 영주시 관공서 프로젝트, A to Z 마케팅 총괄
+                </div>
+              </div>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="images/daygest.png"
+                alt="데이제스트"
+                class="portfolio-thumb"
+              />
+              <div class="portfolio-text">
+                <div class="p-name">데이제스트</div>
+                <div class="p-name-en">DAYGEST</div>
+                <div class="p-desc">
+                  건강기능식품, SNS 운영 및 퍼포먼스 마케팅 전담
+                </div>
+              </div>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="images/dongwon.png"
+                alt="동원천지인"
+                class="portfolio-thumb"
+              />
+              <div class="portfolio-text">
+                <div class="p-name">동원천지인</div>
+                <div class="p-name-en">DONGWON</div>
+                <div class="p-desc">
+                  채널/캠페인 운영, 체험단 및 이벤트 관리
+                </div>
+              </div>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="images/genroku.png"
+                alt="겐로쿠우동"
+                class="portfolio-thumb"
+              />
+              <div class="portfolio-text">
+                <div class="p-name">겐로쿠우동</div>
+                <div class="p-name-en">GENROKU</div>
+                <div class="p-desc">
+                  마약조합 레시피 개발, 객단가 상승 컨설팅
+                </div>
+              </div>
             </div>
           </div>
+
+          <div class="divider"></div>
+
+          <div class="section-tag">DESIGN PORTFOLIO</div>
+          <div class="section-title">디자인 · 스마트스토어 포트폴리오</div>
+          <div class="section-desc">
+            마케팅 대행 외에도 CI/BI 디자인, 상세페이지 기획, 스마트스토어 운영 등<br />
+            다양한 크리에이티브 작업물을 보유하고 있습니다.
+          </div>
+          <a href="https://bright-resistance-d37.notion.site/Design-studio-portfolio-620869f9859048fabcb7c7047e908c6f" target="_blank" rel="noopener" style="display: block; text-decoration: none; margin-top: 16px;">
+            <div class="recruit-highlight" style="cursor: pointer; transition: all 0.3s; text-align: center;">
+              <div class="rh-title" style="font-size: 16px; margin-bottom: 8px;">&#127912; 디자인 포트폴리오 전체 보기</div>
+              <div class="rh-desc">
+                로고 · 브랜딩 · 상세페이지 · 카드뉴스 · 스마트스토어 등<br />
+                <strong>클릭하면 새 창에서 열립니다</strong>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
 
@@ -990,21 +1725,19 @@
             <div class="dot green"></div>
           </div>
           <div class="window-title">AIRBNB_BIZ.doc</div>
-          <div class="window-close" onclick="closeWindow('airbnb')">
-            &#10005;
+          <div class="window-controls">
+            <div class="window-maximize" onclick="toggleFullscreen('airbnb')" title="전체화면">&#9634;</div>
+            <div class="window-close" onclick="closeWindow('airbnb')">&#10005;</div>
           </div>
         </div>
         <div class="window-body">
           <div class="section-tag">ANOTHER VENTURE</div>
-          <div class="section-title">Airbnb 숙소 운영 사업</div>
+          <div class="section-title">대표가 직접 사업을 운영합니다.</div>
           <div class="section-desc">
-            온다마케팅 대표는 마케팅 에이전시 운영과 함께,<br />
-            <span class="highlight"
-              >일본과 한국에서 에어비앤비 숙소 운영 사업</span
-            >을 병행하고 있습니다.<br /><br />
-            직접 숙소를 운영하며 축적한 실전 마케팅 노하우와 고객 경험
-            데이터를<br />
-            에이전시 업무에도 적극 활용하고 있습니다.
+            이론만으로는 절대 알 수 없는 것들이 있습니다.<br />
+            <span class="highlight">직접 매출을 만들어본 사람</span>만이 광고비의 무게를 압니다.<br /><br />
+            온다마케팅 대표는 에이전시 운영과 동시에 일본과 한국에서 에어비앤비 숙소 운영 사업을 병행하고 있습니다.
+            직접 숙소를 운영하며 축적한 실전 마케팅 노하우와 고객 경험 데이터를 에이전시 업무에도 적극 활용하고 있습니다.
           </div>
 
           <div class="airbnb-grid">
@@ -1012,31 +1745,105 @@
               <div class="airbnb-flag">&#127471;&#127477;</div>
               <div class="airbnb-country">JAPAN</div>
               <div class="airbnb-detail">
-                일본 현지 숙소 운영<br />
-                크로스보더 마케팅 경험<br />
-                글로벌 게스트 응대 노하우
+                일본 현지 숙소 다수 운영<br />
+                크로스보더 마케팅 실전 경험<br />
+                다국어 게스트 응대 · 리뷰 전략<br />
+                현지 법률/세무 대응 노하우<br />
+                글로벌 OTA 플랫폼 최적화
               </div>
             </div>
             <div class="airbnb-card">
               <div class="airbnb-flag">&#127472;&#127479;</div>
               <div class="airbnb-country">KOREA</div>
               <div class="airbnb-detail">
-                국내 숙소 운영<br />
-                로컬 마켓 최적화 경험<br />
-                리뷰 기반 브랜딩 전략
+                국내 숙소 운영 · 로컬 최적화<br />
+                플랫폼 알고리즘 분석 · SEO<br />
+                리뷰 기반 브랜딩 · 전환율 설계<br />
+                인테리어/촬영 디렉팅<br />
+                수익률 극대화 가격 전략
               </div>
             </div>
           </div>
 
           <div class="divider"></div>
 
+          <div class="section-tag">WHY IT MATTERS</div>
+          <div class="section-title">왜 이것이 중요한가요?</div>
+          <div class="section-desc">
+            대부분의 대행사 담당자는 광고를 <strong>'집행'</strong>합니다.<br />
+            하지만 직접 사업을 운영하는 대표는 광고를 <span class="highlight">'투자'</span>로 봅니다.<br /><br />
+            숙소 운영에서는 매일 실시간으로 결과가 나옵니다. 예약 전환율, 리뷰 점수, 검색 노출 순위 —
+            이 모든 것이 매출과 직결되기 때문에, 감이 아닌 <strong>데이터로 판단하는 습관</strong>이 체화됩니다.<br /><br />
+            사진 한 장의 구도, 설명 텍스트의 단어 하나, 가격 100원의 차이가 전환율에 미치는 영향을
+            직접 A/B 테스트하며 체득한 경험. 이것은 어떤 교과서에서도 배울 수 없습니다.
+          </div>
+
+          <div class="recruit-highlight">
+            <div class="rh-title">에이전시 업무에 어떻게 적용되나요?</div>
+            <div class="rh-desc">
+              &#10003; <strong>전환율 최적화</strong> — 숙소 예약 전환율 분석 경험을 랜딩페이지, 상세페이지에 직접 적용<br />
+              &#10003; <strong>리뷰 마케팅</strong> — 수백 건의 게스트 리뷰를 관리하며 체득한 리뷰 유도 전략<br />
+              &#10003; <strong>플랫폼 알고리즘</strong> — Airbnb, 네이버, 구글 각 플랫폼의 노출 로직 분석 역량<br />
+              &#10003; <strong>글로벌 마케팅</strong> — 일본 현지 운영으로 축적된 해외 마케팅 실전 감각<br />
+              &#10003; <strong>고객 심리</strong> — 직접 고객을 응대하며 알게 된 구매 결정의 심리적 요인
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-tag">REAL EXPERIENCE</div>
+          <div class="section-title">실전에서 검증된 것만 제안합니다.</div>
+          <div class="section-desc">
+            광고비 100만원이 아깝다고 느껴본 적 있으신가요?<br />
+            대행사 담당자 대부분은 그 감정을 모릅니다. 쓰는 건 광고주의 돈이니까요.<br /><br />
+            하지만 저는 매달 직접 광고비를 쓰고, 직접 매출을 확인하고, 직접 손익을 계산합니다.
+            그래서 <span class="highlight">클라이언트에게 불필요한 광고비 집행을 절대 권하지 않습니다.</span><br /><br />
+            제가 직접 해보고 효과가 검증된 전략만, 제 돈으로도 기꺼이 집행할 수 있는 전략만 제안합니다.
+            이것이 온다마케팅이 다른 대행사와 본질적으로 다른 지점입니다.
+          </div>
+
           <div class="quote-block">
-            직접 사업을 운영하는 대표가 만드는 마케팅은 다릅니다.<br />
-            <span
-              style="font-size: 14px; color: var(--text-dim); font-weight: 400"
-            >
-              실전에서 검증된 전략만을 클라이언트에게 제안합니다.
-            </span>
+            "광고비를 쓰는 게 아깝다고 느끼는 광고주의 마음을<br />
+            누구보다 잘 압니다. 저도 매일 그 자리에 서 있으니까요."
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-tag">FUNDING CONSULTING</div>
+          <div class="section-title">든든자금협회 — 정책자금의 해법을 찾는 곳</div>
+          <div class="section-desc">
+            온다마케팅은 마케팅 에이전시와 숙소 운영 사업 외에도,<br />
+            <span class="highlight">중소기업 · 소상공인을 위한 정책자금 컨설팅</span> 사업을 운영하고 있습니다.<br /><br />
+            든든자금협회(DUNFA)는 단순히 서류를 정리해주는 곳이 아닙니다.<br />
+            실제 승인된 기업의 데이터를 분석하여, 업종 · 재무 상태 · 승인률을 비교하고<br />
+            <strong>최대 대출 금액을 확보하기 위한 데이터 기반 전략</strong>을 제시합니다.
+          </div>
+
+          <div class="recruit-highlight">
+            <div class="rh-title">왜 든든자금협회인가?</div>
+            <div class="rh-desc">
+              &#10003; <strong>전직 심사역 네트워크</strong> — 심사 과정에서 어떤 요소가 중시되는지 사전 파악<br />
+              &#10003; <strong>거절 요인 사전 제거</strong> — 탈락 원인이 되는 요소를 미리 분석하여 승인 확률 극대화<br />
+              &#10003; <strong>맞춤형 자금 설계</strong> — 기업 유형 · 업종별 최적의 정책자금 매칭<br />
+              &#10003; <strong>데이터 기반 접근</strong> — 감이 아닌 실제 승인 데이터로 전략 수립
+            </div>
+          </div>
+
+          <div class="section-desc" style="font-size: 13px; margin-top: 16px;">
+            마케팅으로 매출을 올리는 것도 중요하지만, 사업의 기반이 되는 <strong>자금 확보</strong>가 먼저입니다.<br />
+            온다마케팅 클라이언트에게는 마케팅과 자금 컨설팅을 원스톱으로 제공하여,<br />
+            <span class="highlight">사업 성장의 양 날개</span>를 함께 만들어 드립니다.
+          </div>
+
+          <div class="contact-grid" style="margin-top: 16px;">
+            <div class="contact-item">
+              <div class="contact-label">SERVICE</div>
+              <div class="contact-value">중소기업 · 소상공인<br />정책자금 컨설팅</div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-label">WEBSITE</div>
+              <div class="contact-value" style="word-break: break-all;">dunfa.co.kr</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1057,14 +1864,17 @@
             <div class="dot green"></div>
           </div>
           <div class="window-title">CONTACT.txt</div>
-          <div class="window-close" onclick="closeWindow('contact')">
-            &#10005;
+          <div class="window-controls">
+            <div class="window-maximize" onclick="toggleFullscreen('contact')" title="전체화면">&#9634;</div>
+            <div class="window-close" onclick="closeWindow('contact')">&#10005;</div>
           </div>
         </div>
         <div class="window-body">
           <div class="section-tag">GET IN TOUCH</div>
-          <div class="section-title">파트너가 되어주세요.</div>
+          <div class="section-title">찍어내는 마케팅은 하지 않습니다.</div>
           <div class="section-desc">
+            영업으로 시작된 관계는 오래가지 못합니다.<br />
+            온다마케팅은 <span class="highlight">영업 없이, 소개와 실력만으로</span> 클라이언트를 만나왔습니다.<br /><br />
             당신이 우리에게 설득 당했다면, 이제 함께 시작할 차례입니다.
           </div>
 
@@ -1076,8 +1886,8 @@
               </div>
             </div>
             <div class="contact-item">
-              <div class="contact-label">POSITION</div>
-              <div class="contact-value">퍼포먼스 마케팅<br />에이전시</div>
+              <div class="contact-label">WHAT WE ARE</div>
+              <div class="contact-value">국내 최초<br />맞춤형 기획실행사</div>
             </div>
             <div class="contact-item">
               <div class="contact-label">WEBSITE</div>
@@ -1088,32 +1898,391 @@
             <div class="contact-item">
               <div class="contact-label">BUSINESS</div>
               <div class="contact-value">
-                마케팅 에이전시<br />Airbnb 숙소 운영 (JP/KR)
+                풀퍼널 마케팅 에이전시<br />Airbnb 숙소 운영 (JP/KR)<br />정책자금 컨설팅 (든든자금협회)
               </div>
             </div>
           </div>
 
           <div class="divider"></div>
 
+          <div class="section-tag">WORK WITH US</div>
+          <div class="section-desc" style="font-size: 13px;">
+            &#10003; 콘텐츠 기획부터 퍼포먼스까지 풀퍼널 마케팅<br />
+            &#10003; 브랜드 런칭 A to Z · 해외 마케팅<br />
+            &#10003; SEO · 쇼핑최적화 · 바이럴 마케팅<br />
+            &#10003; 데이터 기반 그로스 전략 설계
+          </div>
+
+          <div class="quote-block">
+            클라이언트의 성장, 성공이 곧 저희의 원동력입니다.<br />
+            <strong>성공에 함께 서 있겠습니다.</strong>
+          </div>
+
+          <div class="divider"></div>
+
           <div style="text-align: center; padding: 20px 0">
-            <div
-              style="
-                font-size: 32px;
-                font-weight: 900;
-                letter-spacing: 8px;
-                margin-bottom: 8px;
-              "
-            >
+            <div style="font-size: 32px; font-weight: 900; letter-spacing: 8px; margin-bottom: 8px;">
               ON<span style="color: var(--accent)">.</span>DA
             </div>
-            <div
-              style="
-                font-size: 11px;
-                color: var(--text-dim);
-                letter-spacing: 4px;
-              "
-            >
-              PERFORMANCE MARKETING AGENCY
+            <div style="font-size: 11px; color: var(--text-dim); letter-spacing: 4px;">
+              FULL-FUNNEL MARKETING AGENCY
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- WINDOW: RECRUIT -->
+      <div class="window" id="win-recruit" style="width: 720px; top: 50px; left: 200px">
+        <div class="window-header" onmousedown="startDrag(event, 'win-recruit')">
+          <div class="window-dots">
+            <div class="dot red" onclick="closeWindow('recruit')"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+          </div>
+          <div class="window-title">JOIN_ONDA.exe</div>
+          <div class="window-controls"><div class="window-maximize" onclick="toggleFullscreen('recruit')" title="전체화면">&#9634;</div><div class="window-close" onclick="closeWindow('recruit')">&#10005;</div></div>
+        </div>
+        <div class="window-body">
+
+          <!-- HERO -->
+          <div style="text-align:center; padding: 10px 0 8px;">
+            <div style="font-size: 11px; letter-spacing: 6px; color: var(--accent); margin-bottom: 20px;">2026 ONDA MARKETING — NOW HIRING</div>
+            <div style="font-size: 36px; font-weight: 900; line-height: 1.25; margin-bottom: 16px;">
+              당신의 수입에<br />천장이 없다면?
+            </div>
+            <div style="font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.9; max-width: 520px; margin: 0 auto;">
+              월급은 정해져 있고, 노력은 보상받지 못하고,<br />
+              내 능력과 상관없이 연차가 쌓여야 올라가는 구조.<br /><br />
+              만약 <span class="highlight">내 노력이 곧 내 수입</span>이 되는 곳이 있다면 —<br />
+              당신은 어떤 선택을 하시겠습니까?
+            </div>
+          </div>
+
+          <div class="stat-row" style="margin-top: 24px;">
+            <div class="stat-box">
+              <div class="stat-num">700+</div>
+              <div class="stat-label">누적 클라이언트</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num">50%</div>
+              <div class="stat-label">연간 성장률</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num">28억</div>
+              <div class="stat-label">월 매출 소재</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num">4개</div>
+              <div class="stat-label">운영 사업부</div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- INCOME HOOK -->
+          <div class="section-tag">REAL INCOME</div>
+          <div class="section-title">대표 한마디</div>
+
+          <div class="quote-block" style="font-size: 18px; padding: 28px;">
+            "아, 나는 앞으로 사업을 해도,<br />
+            어떠한 실패가 와도 전화기만 있으면<br />
+            <strong style="color: var(--accent);">억대소득은 번다!</strong>"
+          </div>
+
+          <div class="section-desc">
+            이것은 허풍이 아닙니다. 과장도 아닙니다.<br />
+            온다마케팅에서 함께한 팀원들이 <strong>실제로 도달한 숫자</strong>이며,<br />
+            이 시스템을 통해 삶의 든든한 기반을 만들었으면 하는 바람으로 설계했습니다.<br /><br />
+            대부분의 사람들은 월 250만원을 벌기 위해 매일 하루 9시간 이상을 투자합니다.<br />
+            <span class="highlight">이런 현실감각이 망가진 상태에서는 배움이 어렵습니다.</span><br /><br />
+            저희의 프로그램을 기반으로 성실수행자 자기 스스로가 지속가능성을 되찾아<br />
+            갈 수 있는 기회를 빠르게 열망하야 성장한다고 생각합니다.
+          </div>
+
+          <div class="section-title" style="font-size: 20px; margin-top: 28px;">실제 수익 성장 로드맵</div>
+
+          <div class="stat-row">
+            <div class="stat-box">
+              <div class="stat-num">월 400만</div>
+              <div class="stat-label">2개월 내 달성</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num">월 500만</div>
+              <div class="stat-label">4.3개월 달성</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num">월 800만</div>
+              <div class="stat-label">8개월 달성</div>
+            </div>
+          </div>
+
+          <div class="recruit-highlight" style="margin-top: 16px;">
+            <div class="rh-title">수익 달성 구조 — 누구나 따라올 수 있는 시스템</div>
+            <div class="rh-desc">
+              &#9679; 대부분 월 400만원까지 소요되는 기간은 <strong>2개월</strong>, 그 후 3개월 간 폭발적 성장 곡선<br />
+              &#9679; 월 800만원 수익까지는 평균 <strong>8개월</strong> 소요<br />
+              &#9679; 반드시 3개월 간 업무 외에 매일 <strong>2시간을 투입</strong>할 수 있어야 합니다<br />
+              &#9679; 완전 월급만 받아오며 취업구조를 살아온 <strong>제로베이스</strong>도 가능<br />
+              &#9679; 몇 개월이 아닌, <strong>캐시플로우를 통해 본 수 있는 방식</strong>으로 가는 겁니다<br />
+              &#9679; 저희 프로그램을 기반으로 성장속도가 자기 스스로가 지속가능성을 되찾는 구조
+            </div>
+          </div>
+
+          <div class="quote-block">
+            "기술적인 영역은 정말 레벨이 낮을수록 기술로 왈가왈부 하지만,<br />
+            사업의 레벨이 높아질수록 그 사업이 흥하고 망하는 이유도,<br />
+            통으로 성공하는 이유도 <strong>전부 사람</strong>이었습니다."<br />
+            <span style="font-size: 13px; color: var(--text-dim); font-weight: 400;">— 온다마케팅 김예닮 대표</span>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- SALES PHILOSOPHY -->
+          <div class="section-tag">WHY SALES</div>
+          <div class="section-title">축하합니다, 이 글을 발견한 당신에게.</div>
+          <div class="section-desc">
+            이 페이지를 보고 있다는 건, 이미 같이 시작하는 많은 사람들보다<br />
+            <span class="highlight">한 발 앞서 있다</span>는 뜻입니다.<br /><br />
+            "나는 할 수 있다!"라는 식의 구호가 교육의 전부가 아닙니다.<br />
+            우리는 <strong>실무에 즉시 접목할 수 있는 가이드</strong>를 제시합니다.
+          </div>
+
+          <div class="quote-block">
+            영업, 세일즈는 모든 개인 뿐만아니라 기업, 국가까지 필요한 핵심 역량입니다.<br />
+            해외 순방을 나서는 대통령부터, 부모에게 용돈 얻으려고 조르는 아이까지 —<br />
+            <strong>"세일즈가 아닌 일은 없습니다."</strong>
+          </div>
+
+          <div class="section-desc">
+            여기서 말하는 세일즈는 떠돌이 영업이 아닙니다.<br />
+            구글이 공식 제공하는 프리미어 네임택 — <strong>이미 검증된 서비스를 필요한 기업에 연결</strong>하는 일입니다.<br /><br />
+            검색 상단 게재, 반영구적 오가닉 트래픽, 고품질 백링크.<br />
+            기업이라면 누구나 원하는 것을, 구글이 공식으로 뒷받침하는 서비스로 제안합니다.<br /><br />
+            <span class="highlight">"팔기 어려운 것을 파는 게 아니라, 필요한 사람에게 알려주는 것."</span><br />
+            그래서 영업 난이도가 낮고, 그래서 성과가 빠릅니다.
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- COMPANY HISTORY -->
+          <div class="section-tag">COMPANY HISTORY</div>
+          <div class="section-title">대표 경력 &amp; 온다마케팅 연혁</div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-year">2019 — 2021</div>
+              <div class="timeline-desc">N/G/K사 공식대행사 소속 · 경영컨설팅 협업<br />SNS, 바이럴, 인쇄, 검색광고 등 종합 마케팅 실무<br />소상공인 억대광고비 지원사업 · 공급기업 선정<br />백링크 · SEO팀 신설 · 서비스 데이터 컨설팅 협업<br />사내 검색 최적화 마케팅 대시보드 구축</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2022</div>
+              <div class="timeline-desc"><strong style="color: var(--accent);">온다마케팅(ONDA) 설립</strong><br />마케팅 교육 · JPG 마케팅 강사 협업</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2023</div>
+              <div class="timeline-desc">제로페이 마케팅LINK 독점 협업<br />선비세상(경북 영주시 관공서) 프로젝트 수주<br />K-AWARDS 마케팅 컨설팅 MASTER 등급 대상 수상</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2024</div>
+              <div class="timeline-desc">관광기업혁신도시 사업 수주<br />누적 클라이언트 700+ 달성</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2025 —</div>
+              <div class="timeline-desc">탐뷰티(TAM BEAUTY) · 피더린(PYDERIN) A to Z 대행 및 해외마케팅<br />든든자금협회(DUNFA) 정책자금 컨설팅 사업 운영<br />글로벌 마케팅 확대 · 신규 사업부 확장<br /><strong>함께할 영업 파트너 모집 중</strong></div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- RECRUIT POSITION -->
+          <div class="section-tag">NOW HIRING</div>
+          <div class="section-title">Who's next?<br />SEO소프트와 함께할 <span class="highlight">영업 파트너</span>를 찾습니다</div>
+
+          <div class="recruit-highlight" style="margin-top: 16px;">
+            <div class="rh-title">SEO소프트란?</div>
+            <div class="rh-desc">
+              온다마케팅이 운영하는 검색최적화(SEO) 전문 사업부입니다.<br />
+              핵심 서비스는 <strong>구글에서 공식 제공하는 프리미어 네임택</strong>을 기업 고객에게 제공하는 것입니다.<br /><br />
+              프리미어 네임택이 적용되면 고품질 DA 백링크, 검색어 상단 게재를 통해<br />
+              단기적 오가닉 트래픽 상승과 <strong>반영구적인 오가닉 트래픽</strong>을 모두 확보할 수 있습니다.<br /><br />
+              지금 모집하는 영업 파트너는 이 서비스를 기업 고객에게<br />
+              컨설팅하고 제안하는 <span class="highlight">비즈니스 매니저</span> 포지션입니다.
+            </div>
+          </div>
+
+          <div class="contact-grid" style="margin-top: 16px;">
+            <div class="contact-item">
+              <div class="contact-label">모집 직무</div>
+              <div class="contact-value">SEO소프트 영업 파트너<br />(비즈니스 매니저)</div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-label">근무 시간</div>
+              <div class="contact-value">09:30 ~ 18:00<br />유연근무 협의 가능</div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-label">급여</div>
+              <div class="contact-value"><span class="highlight">월 500만원 이상 가능</span><br />성과 기반 인센티브</div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-label">근무 형태</div>
+              <div class="contact-value">프리랜서 / 재택 상의 가능<br />업종 · 경력 무관</div>
+            </div>
+          </div>
+
+          <div class="section-desc" style="font-size: 12px; color: var(--text-dim); line-height: 2; margin-top: 16px;">
+            &#10003; 구글 검색최적화 서비스를 기업에 컨설팅 · 제안하는 영업직<br />
+            &#10003; SEO에 대한 사전 지식 불필요 — 입사 후 1:1 교육 제공<br />
+            &#10003; 이미 검증된 서비스를 파는 것이기 때문에 영업 난이도가 낮음<br />
+            &#10003; 본인의 노력에 비례하여 수익이 무한히 스케일업 가능
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- OFFICE CULTURE -->
+          <div class="section-tag">OFFICE CULTURE</div>
+          <div class="section-title">최고의 복지는 성장할 수 있는 환경입니다.</div>
+          <div class="section-desc" style="margin-bottom: 16px;">
+            우리는 자유를 통한 성장을 추구합니다.<br />
+            규율이 아닌 자율, 감시가 아닌 신뢰 — 프로에게 맞는 환경을 만듭니다.
+          </div>
+
+          <div class="benefit-grid">
+            <div class="benefit-card">
+              <div class="benefit-icon">&#127968;</div>
+              <div class="benefit-name">원격 근무</div>
+              <div class="benefit-desc">주 2일 본사 근무<br />원하는 곳 어디서나<br />노트북으로 업무 가능</div>
+            </div>
+            <div class="benefit-card">
+              <div class="benefit-icon">&#128176;</div>
+              <div class="benefit-name">성과 보상</div>
+              <div class="benefit-desc">성과 기반 인센티브<br />월 급여 500만+ 가능<br />매출 연동 보너스</div>
+            </div>
+            <div class="benefit-card">
+              <div class="benefit-icon">&#128218;</div>
+              <div class="benefit-name">성장 지원</div>
+              <div class="benefit-desc">1:1 멘토링 교육<br />마케팅 A to Z 습득<br />실전 케이스 스터디</div>
+            </div>
+            <div class="benefit-card">
+              <div class="benefit-icon">&#128663;</div>
+              <div class="benefit-name">업무 환경</div>
+              <div class="benefit-desc">법인 차량 지원<br />도그 프렌들리<br />무한 간식 · 커피</div>
+            </div>
+            <div class="benefit-card">
+              <div class="benefit-icon">&#127891;</div>
+              <div class="benefit-name">커리어 설계</div>
+              <div class="benefit-desc">수평적 조직문화<br />빠른 성장 · 승급<br />독립 창업 지원</div>
+            </div>
+            <div class="benefit-card">
+              <div class="benefit-icon">&#127760;</div>
+              <div class="benefit-name">글로벌 경험</div>
+              <div class="benefit-desc">해외 마케팅 참여<br />일본 · 동남아 시장<br />크로스보더 실전</div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- WHAT YOU GET -->
+          <div class="section-tag">WHAT YOU GET</div>
+          <div class="section-title">온다 마케팅과 함께하면<br />무엇을 얻게 되나요?</div>
+
+          <div class="recruit-highlight">
+            <div class="rh-title">01. 마케팅 스킬 A to Z — 첫 달부터 실전</div>
+            <div class="rh-desc">
+              기획, 분석, 운영, 리포팅까지. 대행사 3년 차도 못 배우는 실전 마케팅을 온다에서는 첫 달부터 경험합니다.
+              이론이 아닌 <strong>실제 클라이언트 데이터</strong>로 배우는 퍼포먼스 마케팅.
+              대기업에서는 사내에 상주하는 전문가가 배치되는 수준의 교육을 1:1로 받을 수 있습니다.
+            </div>
+          </div>
+          <div class="recruit-highlight">
+            <div class="rh-title">02. 1:1 온라인 교육 + 실전 케이스 분석</div>
+            <div class="rh-desc">
+              1:1 온라인 교육을 통해 실습하고, 실전에서 즉시 발휘시킬 수 있도록 각 교육 섹션별 팔로업까지 진행합니다.
+              광고기획자, 웹디자이너, 영상제작자, 카피라이터 수준의 역량을
+              <strong>한 사람이 갖출 수 있도록</strong> 체계적으로 설계된 커리큘럼입니다.
+            </div>
+          </div>
+          <div class="recruit-highlight">
+            <div class="rh-title">03. 서비스 교육 — 프로의 기본기</div>
+            <div class="rh-desc">
+              기획의 근본은 설득. 서비스는 태도에서 시작됩니다.
+              매너, 마인드, 커뮤니케이션 — 기본 태도 또한 프로로서 역할을 수행할 수 있도록 적극적으로 지원합니다.
+              <strong>"잘 파는 사람"이 아닌 "설득하는 사람"</strong>을 만듭니다.
+            </div>
+          </div>
+          <div class="recruit-highlight">
+            <div class="rh-title">04. 독립 가능한 역량 — 평생 먹고 살 스킬</div>
+            <div class="rh-desc">
+              온다마케팅에서의 경험은 단순한 직장 경력이 아닙니다.
+              SEO, 퍼포먼스, 콘텐츠, 브랜딩 — 이 모든 것을 체화하면
+              <strong>어디서든, 누구와든, 무엇이든</strong> 마케팅할 수 있는 사람이 됩니다.
+              몇 개 지워도 남는 스펙이 아닌, 어디에나 적용되는 실력을 만들어 드립니다.
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- WHO WE WANT -->
+          <div class="section-tag">WHO WE WANT</div>
+          <div class="section-title">이런 분이라면,<br />지금 바로 연락하세요.</div>
+
+          <div class="benefit-grid">
+            <div class="benefit-card">
+              <div class="benefit-icon">&#128293;</div>
+              <div class="benefit-name">성장 집착</div>
+              <div class="benefit-desc">현재 연봉에 만족 못 하고<br />더 큰 가능성을 찾는 사람</div>
+            </div>
+            <div class="benefit-card">
+              <div class="benefit-icon">&#127919;</div>
+              <div class="benefit-name">실행력</div>
+              <div class="benefit-desc">"나는 할 수 있다"가<br />말이 아닌 행동인 사람</div>
+            </div>
+            <div class="benefit-card">
+              <div class="benefit-icon">&#128161;</div>
+              <div class="benefit-name">설득의 기술</div>
+              <div class="benefit-desc">"잘 파는 사람"이 아닌<br />"설득하는 사람"이 되고 싶은 사람</div>
+            </div>
+            <div class="benefit-card">
+              <div class="benefit-icon">&#9999;</div>
+              <div class="benefit-name">제로베이스 OK</div>
+              <div class="benefit-desc">경력 · 학력 · 나이 무관<br />의지만 있으면 됩니다</div>
+            </div>
+          </div>
+
+          <div class="section-desc" style="margin-top: 16px;">
+            신입직원이라도 타 대행사 경력자 기준을 넘어서는 사례가 있었습니다.<br />
+            지금까지 해 본 것이 아무것도 없더라도, 단기간에 순이익 1만원만 이룬 사람이라도<br />
+            <span class="highlight">반드시 비즈니스로 만들 수 있다는 것</span>을 저희는 입증했습니다.<br /><br />
+            누군가 그렇게 다 가능하다면 그 분들에게 반드시 배우길 바랍니다.<br />
+            저희와 함께하는 팀원 중에도 우수한 결과가 많지만,<br />
+            '누구나'라는 표현을 하기엔 <strong>얼마나 기간이 필요할까요?</strong><br /><br />
+            누구나 할 수 있는 것은 다음 4번 항에 말씀드리겠습니다.
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- FINAL PUSH -->
+          <div class="section-tag">LAST MESSAGE</div>
+          <div class="section-title" style="font-size: 20px;">3년 뒤의 나를 상상해 보세요.</div>
+          <div class="section-desc">
+            지금 이 글을 닫고 내일도 같은 하루를 반복할 수 있습니다.<br />
+            그리고 3년 뒤, 여전히 같은 자리에서 같은 월급을 받고 있겠죠.<br /><br />
+            혹은 —<br /><br />
+            지금 이 이메일 하나를 보내고, 3년 뒤에는<br />
+            <span class="highlight">전화기 하나만 있으면 억대 소득을 만들 수 있는 사람</span>이 되어 있을 수도 있습니다.<br /><br />
+            온다마케팅은 그런 사람을 이미 만들어왔고,<br />
+            다음은 <strong>당신의 차례</strong>입니다.
+          </div>
+
+          <div style="text-align: center; padding: 30px 0 10px;">
+            <div style="font-size: 11px; letter-spacing: 4px; color: var(--accent); margin-bottom: 16px;">APPLY NOW</div>
+            <div style="font-size: 28px; font-weight: 900; margin-bottom: 6px;">&#128231; gl.partner.seo@gmail.com</div>
+            <div style="font-size: 18px; font-weight: 700; margin-bottom: 6px;">&#128222; 010-9355-4951</div>
+            <div style="font-size: 13px; color: var(--text-dim); margin-bottom: 20px;">이메일 또는 전화로 편하게 연락 주세요.</div>
+            <div style="display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+              <div style="background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); border-radius: 20px; padding: 8px 18px; font-size: 12px; color: var(--accent);">경력 무관</div>
+              <div style="background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); border-radius: 20px; padding: 8px 18px; font-size: 12px; color: var(--accent);">학력 무관</div>
+              <div style="background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); border-radius: 20px; padding: 8px 18px; font-size: 12px; color: var(--accent);">나이 무관</div>
+              <div style="background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); border-radius: 20px; padding: 8px 18px; font-size: 12px; color: var(--accent);">재택 가능</div>
+              <div style="background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); border-radius: 20px; padding: 8px 18px; font-size: 12px; color: var(--accent);">월 500만+ 가능</div>
             </div>
           </div>
         </div>
@@ -1122,6 +2291,14 @@
 
     <!-- TASKBAR -->
     <div id="taskbar">
+      <div
+        class="taskbar-icon"
+        onclick="openWindow('recruit')"
+        id="tb-recruit"
+        title="Join Us"
+      >
+        &#128640;
+      </div>
       <div
         class="taskbar-icon"
         onclick="openWindow('about')"
@@ -1166,10 +2343,41 @@
     </div>
 
     <script>
-      // Boot sequence
-      setTimeout(() => {
+      // Login screen
+      function doLogin() {
+        const input = document.getElementById('login-input');
+        const pw = input.value.trim();
+        if (pw !== 'onda100') {
+          input.style.borderColor = '#ff4444';
+          input.style.animation = 'shake 0.4s ease';
+          setTimeout(() => {
+            input.style.borderColor = '';
+            input.style.animation = '';
+          }, 500);
+          input.value = '';
+          input.placeholder = 'Wrong password';
+          setTimeout(() => { input.placeholder = 'Enter password...'; }, 1500);
+          return;
+        }
         document.getElementById('boot-screen').classList.add('hidden');
-      }, 2400);
+        setTimeout(() => openWindow('recruit'), 500);
+      }
+      document.getElementById('login-btn').addEventListener('click', doLogin);
+      document.getElementById('login-input').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') doLogin();
+      });
+
+      // Login screen time
+      function updateLoginTime() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('login-time').textContent = `${h}:${m}`;
+        const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        document.getElementById('login-date').textContent = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
+      }
+      updateLoginTime();
 
       // Clock
       function updateClock() {
@@ -1177,11 +2385,47 @@
         const h = String(now.getHours()).padStart(2, '0');
         const m = String(now.getMinutes()).padStart(2, '0');
         const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        document.getElementById('clock').textContent =
-          `${days[now.getDay()]} ${h}:${m}`;
+        document.getElementById('clock').textContent = `${days[now.getDay()]} ${h}:${m}`;
       }
       updateClock();
       setInterval(updateClock, 10000);
+
+      // Particles
+      (function createParticles() {
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 40; i++) {
+          const p = document.createElement('div');
+          p.className = 'particle';
+          p.style.left = Math.random() * 100 + '%';
+          p.style.animationDuration = (12 + Math.random() * 20) + 's';
+          p.style.animationDelay = (Math.random() * 15) + 's';
+          p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
+          container.appendChild(p);
+        }
+      })();
+
+      // Counter animation for stat numbers
+      function animateCounters() {
+        document.querySelectorAll('.stat-num').forEach(el => {
+          const text = el.textContent;
+          const match = text.match(/(\d+)/);
+          if (!match) return;
+          const target = parseInt(match[0]);
+          const suffix = text.replace(match[0], '');
+          const prefix = text.substring(0, text.indexOf(match[0]));
+          let current = 0;
+          const step = Math.ceil(target / 40);
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
+            }
+            el.textContent = prefix + current + suffix;
+          }, 30);
+        });
+      }
+      setTimeout(animateCounters, 1500);
 
       // Window management
       let activeWin = null;
@@ -1200,7 +2444,15 @@
 
       function closeWindow(name) {
         const win = document.getElementById('win-' + name);
-        win.style.display = 'none';
+        win.style.transition = 'opacity 0.2s, transform 0.2s';
+        win.style.opacity = '0';
+        win.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          win.style.display = 'none';
+          win.style.opacity = '';
+          win.style.transform = '';
+          win.style.transition = '';
+        }, 200);
         document.getElementById('tb-' + name).classList.remove('has-window');
       }
 
@@ -1306,6 +2558,99 @@
             closeWindow(name);
           }
         }
+      });
+
+      // Scroll reveal for window body sections
+      document.querySelectorAll('.window-body').forEach(body => {
+        body.addEventListener('scroll', function() {
+          this.querySelectorAll('.section-tag, .stat-row, .recruit-highlight, .benefit-grid, .quote-block, .service-grid, .portfolio-grid, .contact-grid, .airbnb-grid, .timeline').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            const bodyRect = this.getBoundingClientRect();
+            if (rect.top < bodyRect.bottom - 40) {
+              el.style.opacity = '1';
+              el.style.transform = 'translateY(0)';
+            }
+          });
+        });
+      });
+      // Initial styles for scroll reveal
+      document.querySelectorAll('.window-body .stat-row, .window-body .recruit-highlight, .window-body .benefit-grid, .window-body .quote-block, .window-body .service-grid, .window-body .portfolio-grid').forEach(el => {
+        el.style.transition = 'opacity 0.5s, transform 0.5s';
+      });
+
+      // Position desktop icons in a grid
+      (function layoutIcons() {
+        const icons = document.querySelectorAll('.desktop-icon');
+        const startX = 10, startY = 10, gapY = 95;
+        icons.forEach((icon, i) => {
+          icon.style.position = 'absolute';
+          icon.style.left = startX + 'px';
+          icon.style.top = (startY + i * gapY) + 'px';
+        });
+      })();
+
+      // Desktop icon drag
+      document.querySelectorAll('.desktop-icon').forEach(icon => {
+        let startX, startY, origX, origY, dragging = false;
+        icon.addEventListener('mousedown', function(e) {
+          if (e.detail >= 2) return;
+          startX = e.clientX;
+          startY = e.clientY;
+          const rect = icon.getBoundingClientRect();
+          const parent = icon.parentElement.getBoundingClientRect();
+          origX = rect.left - parent.left;
+          origY = rect.top - parent.top;
+          dragging = false;
+          function onMove(ev) {
+            const dx = ev.clientX - startX;
+            const dy = ev.clientY - startY;
+            if (Math.abs(dx) > 5 || Math.abs(dy) > 5) dragging = true;
+            if (dragging) {
+              icon.style.position = 'absolute';
+              icon.style.left = (origX + dx) + 'px';
+              icon.style.top = (origY + dy) + 'px';
+              icon.style.zIndex = '20';
+            }
+          }
+          function onUp() {
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+            if (dragging) icon.style.zIndex = '10';
+          }
+          document.addEventListener('mousemove', onMove);
+          document.addEventListener('mouseup', onUp);
+        });
+      });
+
+      // Fullscreen toggle
+      function toggleFullscreen(name) {
+        const win = document.getElementById('win-' + name);
+        if (win.dataset.fullscreen === 'true') {
+          win.style.width = win.dataset.origW;
+          win.style.height = win.dataset.origH;
+          win.style.top = win.dataset.origT;
+          win.style.left = win.dataset.origL;
+          win.style.borderRadius = '14px';
+          win.dataset.fullscreen = 'false';
+        } else {
+          win.dataset.origW = win.style.width;
+          win.dataset.origH = win.style.height || 'auto';
+          win.dataset.origT = win.style.top;
+          win.dataset.origL = win.style.left;
+          win.style.width = '100vw';
+          win.style.height = 'calc(100vh - 70px)';
+          win.style.top = '32px';
+          win.style.left = '0px';
+          win.style.borderRadius = '0';
+          win.dataset.fullscreen = 'true';
+        }
+      }
+      document.querySelectorAll('.dot.green').forEach(dot => {
+        dot.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const name = this.closest('.window').id.replace('win-', '');
+          toggleFullscreen(name);
+        });
       });
 
       // Click desktop to deselect
