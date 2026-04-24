@@ -952,6 +952,62 @@
 
       /* === MOBILE === */
       @media (max-width: 768px) {
+        /* Login screen */
+        .login-time {
+          font-size: 42px !important;
+          top: 30px !important;
+        }
+        .login-date {
+          top: 85px !important;
+          font-size: 12px !important;
+        }
+        .login-avatar {
+          width: 70px;
+          height: 70px;
+        }
+        .login-input-wrap {
+          width: 240px;
+        }
+        #boot-screen .logo-text {
+          font-size: 36px;
+          letter-spacing: 6px;
+        }
+        #boot-screen::before {
+          width: 400px;
+          height: 400px;
+        }
+        #boot-screen::after {
+          width: 300px;
+          height: 300px;
+        }
+
+        /* Menu bar */
+        #menu-bar {
+          padding: 0 10px;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+        }
+        #menu-bar::-webkit-scrollbar {
+          display: none;
+        }
+        #menu-bar .menu-item {
+          font-size: 11px;
+          margin-right: 12px;
+          white-space: nowrap;
+          flex-shrink: 0;
+        }
+        #menu-bar .brand {
+          margin-right: 12px;
+        }
+
+        /* Clock */
+        #clock {
+          font-size: 11px;
+          right: 10px;
+        }
+
+        /* Desktop icons */
         #icons {
           top: 40px;
           left: 10px;
@@ -960,30 +1016,42 @@
           gap: 0;
         }
         .desktop-icon {
-          width: 76px;
+          width: 70px;
         }
         .icon-img {
-          width: 44px;
-          height: 44px;
-          font-size: 30px;
+          width: 40px;
+          height: 40px;
+          font-size: 28px;
         }
         .icon-label {
-          font-size: 10px;
+          font-size: 9px;
         }
+
+        /* Windows - fullscreen on mobile */
         .window {
           min-width: unset !important;
-          width: calc(100vw - 16px) !important;
-          height: calc(100vh - 90px) !important;
-          left: 8px !important;
-          top: 36px !important;
-          border-radius: 12px;
+          width: 100vw !important;
+          height: calc(100vh - 80px) !important;
+          left: 0 !important;
+          top: 32px !important;
+          border-radius: 0 0 12px 12px;
+        }
+        .window-header {
+          padding: 10px 12px;
         }
         .window-body {
-          padding: 20px;
-          max-height: calc(100vh - 150px);
+          padding: 16px;
+          max-height: calc(100vh - 140px);
         }
-        .service-grid {
-          grid-template-columns: 1fr;
+        .window[data-fullscreen="true"] .window-body {
+          max-width: 100%;
+          padding: 16px;
+        }
+
+        /* Grids → single column */
+        .service-grid,
+        .service-grid[style*="grid-template-columns"] {
+          grid-template-columns: 1fr !important;
         }
         .portfolio-grid {
           grid-template-columns: 1fr;
@@ -994,39 +1062,168 @@
         .contact-grid {
           grid-template-columns: 1fr;
         }
-        .stat-row {
-          flex-direction: column;
-          gap: 10px;
+        .benefit-grid {
+          grid-template-columns: 1fr 1fr;
         }
+
+        /* Stats */
+        .stat-row {
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .stat-box {
+          flex: 1 1 calc(50% - 8px);
+          min-width: calc(50% - 8px);
+          padding: 16px 10px;
+        }
+        .stat-num {
+          font-size: 22px;
+        }
+        .stat-label {
+          font-size: 10px;
+        }
+
+        /* Profile */
         .profile-section {
           flex-direction: column;
           text-align: center;
+          gap: 16px;
         }
         .profile-img {
-          width: 120px;
-          height: 150px;
+          width: 100px;
+          height: 130px;
         }
+        .profile-name {
+          font-size: 20px;
+        }
+
+        /* Portfolio */
         .portfolio-thumb {
-          height: 110px;
+          height: 140px;
+        }
+
+        /* Typography */
+        .section-title {
+          font-size: 20px;
+        }
+        .section-desc {
+          font-size: 13px;
+        }
+        .quote-block {
+          font-size: 14px;
+          padding: 16px 18px;
+        }
+        .quote-block::after {
+          font-size: 50px;
+        }
+
+        /* Recruit hero */
+        .window-body [style*="font-size: 36px"] {
+          font-size: 26px !important;
+        }
+        .window-body [style*="font-size: 28px"] {
+          font-size: 20px !important;
+        }
+
+        /* Recruit highlights */
+        .recruit-highlight {
+          padding: 18px;
+        }
+        .recruit-highlight .rh-title {
+          font-size: 14px;
+        }
+        .recruit-highlight .rh-desc {
+          font-size: 12px;
+        }
+
+        /* Benefit cards */
+        .benefit-card {
+          padding: 14px;
+        }
+        .benefit-icon {
+          font-size: 24px;
+        }
+        .benefit-name {
+          font-size: 13px;
+        }
+        .benefit-desc {
+          font-size: 10px;
+        }
+
+        /* Service cards */
+        .service-card {
+          padding: 18px 14px;
+        }
+
+        /* Timeline */
+        .timeline {
+          padding-left: 16px;
+        }
+
+        /* Divider */
+        .divider {
+          margin: 24px 0;
+        }
+
+        /* Taskbar */
+        #taskbar {
+          bottom: 6px;
+          padding: 4px 8px;
+          gap: 2px;
+        }
+        .taskbar-icon {
+          width: 38px;
+          height: 38px;
+          font-size: 20px;
+        }
+        .taskbar-sep {
+          height: 24px;
+          margin: 0 3px;
+        }
+
+        /* Contact items */
+        .contact-item {
+          padding: 14px;
+        }
+        .contact-value {
+          font-size: 13px;
+        }
+
+        /* Airbnb cards */
+        .airbnb-card {
+          padding: 18px;
+        }
+        .airbnb-flag {
+          font-size: 32px;
+        }
+        .airbnb-country {
+          font-size: 16px;
+        }
+        .airbnb-detail {
+          font-size: 12px;
+        }
+      }
+
+      /* === VERY SMALL SCREENS === */
+      @media (max-width: 380px) {
+        .stat-box {
+          flex: 1 1 100%;
+          min-width: 100%;
         }
         .benefit-grid {
           grid-template-columns: 1fr;
         }
-        .section-title {
-          font-size: 22px;
+        .window-body {
+          padding: 12px;
         }
-        #taskbar {
-          bottom: 6px;
-          padding: 4px 8px;
+        .section-title {
+          font-size: 18px;
         }
         .taskbar-icon {
-          width: 40px;
-          height: 40px;
-          font-size: 22px;
-        }
-        #boot-screen .logo-text {
-          font-size: 36px;
-          letter-spacing: 6px;
+          width: 34px;
+          height: 34px;
+          font-size: 18px;
         }
       }
     </style>
@@ -2578,15 +2775,38 @@
         el.style.transition = 'opacity 0.5s, transform 0.5s';
       });
 
+      // Mobile: single tap opens window (dblclick is hard on mobile)
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      if (isMobile) {
+        document.querySelectorAll('.desktop-icon').forEach(icon => {
+          icon.addEventListener('click', function() {
+            const dblHandler = this.getAttribute('ondblclick');
+            if (dblHandler) {
+              const match = dblHandler.match(/openWindow\('(\w+)'\)/);
+              if (match) openWindow(match[1]);
+            }
+          });
+        });
+      }
+
       // Position desktop icons in a grid
       (function layoutIcons() {
         const icons = document.querySelectorAll('.desktop-icon');
         const startX = 10, startY = 10, gapY = 95;
-        icons.forEach((icon, i) => {
-          icon.style.position = 'absolute';
-          icon.style.left = startX + 'px';
-          icon.style.top = (startY + i * gapY) + 'px';
-        });
+        if (isMobile) {
+          const cols = Math.floor((window.innerWidth - 20) / 76);
+          icons.forEach((icon, i) => {
+            icon.style.position = 'absolute';
+            icon.style.left = (10 + (i % cols) * 76) + 'px';
+            icon.style.top = (10 + Math.floor(i / cols) * 90) + 'px';
+          });
+        } else {
+          icons.forEach((icon, i) => {
+            icon.style.position = 'absolute';
+            icon.style.left = startX + 'px';
+            icon.style.top = (startY + i * gapY) + 'px';
+          });
+        }
       })();
 
       // Desktop icon drag
@@ -2638,7 +2858,7 @@
           win.dataset.origT = win.style.top;
           win.dataset.origL = win.style.left;
           win.style.width = '100vw';
-          win.style.height = 'calc(100vh - 70px)';
+          win.style.height = 'calc(100vh - 32px)';
           win.style.top = '32px';
           win.style.left = '0px';
           win.style.borderRadius = '0';
