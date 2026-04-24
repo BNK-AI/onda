@@ -2,7 +2,7 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
     <meta name="theme-color" content="#08080f" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23ff6b6b'/><text x='50' y='68' text-anchor='middle' font-size='52' font-weight='900' fill='white' font-family='Arial'>O</text></svg>" />
     <title>ONDA Marketing Agency</title>
@@ -952,160 +952,204 @@
 
       /* === MOBILE === */
       @media (max-width: 768px) {
+        /* Safe area for notch devices */
+        body {
+          padding-top: env(safe-area-inset-top);
+          padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Disable hover effects on touch */
+        .desktop-icon:hover,
+        .service-card:hover,
+        .portfolio-item:hover,
+        .stat-box:hover,
+        .benefit-card:hover,
+        .airbnb-card:hover,
+        .contact-item:hover,
+        .recruit-highlight:hover,
+        .profile-img:hover {
+          transform: none !important;
+          box-shadow: none !important;
+        }
+
         /* Login screen */
         #boot-screen {
-          padding: 0 20px;
+          padding: 0 24px;
         }
         .login-time {
-          font-size: 36px !important;
-          top: 20px !important;
+          position: static !important;
+          font-size: 48px !important;
+          margin-bottom: 4px;
         }
         .login-date {
-          top: 65px !important;
-          font-size: 11px !important;
+          position: static !important;
+          font-size: 12px !important;
+          margin-bottom: 40px;
+        }
+        .login-box {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
         .login-box img[alt="ONDA"] {
-          width: 140px !important;
-          margin-bottom: 16px !important;
+          width: 120px !important;
+          margin-bottom: 12px !important;
         }
         .login-role {
-          font-size: 10px !important;
+          font-size: 9px !important;
           letter-spacing: 2px !important;
-          margin-bottom: 20px !important;
-        }
-        .login-avatar {
-          width: 60px;
-          height: 60px;
+          margin-bottom: 24px !important;
         }
         .login-input-wrap {
-          width: 220px;
+          width: min(260px, 80vw);
         }
         .login-input {
-          padding: 10px 40px 10px 16px;
-          font-size: 13px;
+          padding: 12px 44px 12px 18px;
+          font-size: 16px;
+          -webkit-appearance: none;
         }
         .login-btn {
-          width: 32px;
-          height: 32px;
-          font-size: 14px;
+          width: 34px;
+          height: 34px;
+          font-size: 15px;
         }
         .login-hint {
           font-size: 10px !important;
         }
-        #boot-screen .logo-text {
-          font-size: 30px;
-          letter-spacing: 4px;
-        }
         #boot-screen::before {
           width: 300px;
           height: 300px;
+          top: -100px;
+          right: -100px;
         }
         #boot-screen::after {
-          width: 250px;
-          height: 250px;
+          width: 200px;
+          height: 200px;
+          bottom: -50px;
+          left: -50px;
         }
 
-        /* Menu bar */
+        /* Menu bar — hide on mobile, taskbar is enough */
         #menu-bar {
-          padding: 0 10px;
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-          scrollbar-width: none;
-        }
-        #menu-bar::-webkit-scrollbar {
           display: none;
         }
-        #menu-bar .menu-item {
-          font-size: 11px;
-          margin-right: 12px;
-          white-space: nowrap;
-          flex-shrink: 0;
-        }
-        #menu-bar .brand {
-          margin-right: 12px;
-        }
-
-        /* Clock */
         #clock {
-          font-size: 11px;
-          right: 10px;
+          display: none;
         }
 
         /* Desktop icons */
         #icons {
-          top: 40px;
-          left: 10px;
+          top: 16px;
+          left: 0;
+          width: 100vw;
+          height: calc(100vh - 80px);
+          display: flex;
           flex-direction: row;
           flex-wrap: wrap;
-          gap: 0;
+          align-content: flex-start;
+          justify-content: center;
+          gap: 4px;
+          padding: 0 8px;
         }
         .desktop-icon {
-          width: 70px;
+          position: static !important;
+          width: 72px;
+          padding: 8px 4px;
         }
         .icon-img {
-          width: 40px;
-          height: 40px;
-          font-size: 28px;
+          width: 44px;
+          height: 44px;
+          font-size: 30px;
         }
         .icon-label {
           font-size: 9px;
+          margin-top: 2px;
         }
 
-        /* Windows - fullscreen on mobile */
+        /* Windows — full screen on mobile */
         .window {
           min-width: unset !important;
           width: 100vw !important;
-          height: calc(100vh - 80px) !important;
+          height: calc(100vh - 60px) !important;
           left: 0 !important;
-          top: 32px !important;
-          border-radius: 0 0 12px 12px;
+          top: 0 !important;
+          border-radius: 0;
+          border: none;
+          box-shadow: none;
         }
         .window-header {
           padding: 10px 12px;
+          position: sticky;
+          top: 0;
+          z-index: 10;
+          background: rgba(12, 12, 22, 0.98);
+        }
+        .window-title {
+          font-size: 12px;
+        }
+        .window-dots {
+          gap: 6px;
+          margin-right: 10px;
+        }
+        .dot {
+          width: 10px;
+          height: 10px;
+        }
+        .window-maximize {
+          display: none;
+        }
+        .window-close {
+          width: 32px;
+          height: 32px;
+          font-size: 16px;
         }
         .window-body {
-          padding: 16px;
-          max-height: calc(100vh - 140px);
+          padding: 20px 16px;
+          max-height: calc(100vh - 120px);
+          -webkit-overflow-scrolling: touch;
         }
         .window[data-fullscreen="true"] .window-body {
           max-width: 100%;
-          padding: 16px;
+          padding: 20px 16px;
         }
 
         /* Grids → single column */
         .service-grid,
         .service-grid[style*="grid-template-columns"] {
           grid-template-columns: 1fr !important;
+          gap: 12px;
         }
         .portfolio-grid {
           grid-template-columns: 1fr;
+          gap: 10px;
         }
         .airbnb-grid {
           grid-template-columns: 1fr;
+          gap: 12px;
         }
         .contact-grid {
           grid-template-columns: 1fr;
+          gap: 10px;
         }
         .benefit-grid {
           grid-template-columns: 1fr 1fr;
+          gap: 8px;
         }
 
-        /* Stats */
+        /* Stats — 2-column wrap */
         .stat-row {
-          flex-direction: row;
-          flex-wrap: wrap;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
           gap: 8px;
         }
         .stat-box {
-          flex: 1 1 calc(50% - 8px);
-          min-width: calc(50% - 8px);
-          padding: 16px 10px;
+          padding: 14px 8px;
         }
         .stat-num {
-          font-size: 22px;
+          font-size: 20px;
         }
         .stat-label {
-          font-size: 10px;
+          font-size: 9px;
         }
 
         /* Profile */
@@ -1115,100 +1159,191 @@
           gap: 16px;
         }
         .profile-img {
-          width: 100px;
-          height: 130px;
+          width: 90px;
+          height: 115px;
+          margin: 0 auto;
         }
         .profile-name {
-          font-size: 20px;
+          font-size: 18px;
+        }
+        .profile-role {
+          font-size: 12px;
+        }
+        .profile-desc {
+          font-size: 12px;
         }
 
         /* Portfolio */
         .portfolio-thumb {
-          height: 140px;
+          height: 160px;
+        }
+        .portfolio-text {
+          padding: 12px 14px;
+        }
+        .portfolio-item .p-name {
+          font-size: 13px;
+        }
+        .portfolio-item .p-desc {
+          font-size: 11px;
         }
 
         /* Typography */
+        .section-tag {
+          font-size: 9px;
+          letter-spacing: 3px;
+          margin-bottom: 10px;
+        }
         .section-title {
           font-size: 20px;
+          margin-bottom: 14px;
+          word-break: keep-all;
         }
         .section-desc {
           font-size: 13px;
+          line-height: 1.8;
+          margin-bottom: 18px;
+          word-break: keep-all;
         }
         .quote-block {
           font-size: 14px;
-          padding: 16px 18px;
+          padding: 16px 16px;
+          margin: 18px 0;
+          word-break: keep-all;
         }
         .quote-block::after {
-          font-size: 50px;
+          font-size: 40px;
+          right: 10px;
         }
 
-        /* Recruit hero */
+        /* Inline style overrides for recruit page */
         .window-body [style*="font-size: 36px"] {
-          font-size: 26px !important;
+          font-size: 24px !important;
+          line-height: 1.3 !important;
         }
         .window-body [style*="font-size: 28px"] {
-          font-size: 20px !important;
+          font-size: 18px !important;
+        }
+        .window-body [style*="font-size: 32px"] {
+          font-size: 22px !important;
+        }
+        .window-body [style*="font-size: 18px"] {
+          font-size: 15px !important;
+        }
+        .window-body [style*="font-size: 15px"] {
+          font-size: 13px !important;
+        }
+        .window-body [style*="max-width: 520px"] {
+          max-width: 100% !important;
+        }
+        .window-body [style*="letter-spacing: 6px"] {
+          letter-spacing: 3px !important;
+          font-size: 10px !important;
+        }
+        .window-body [style*="letter-spacing: 8px"] {
+          letter-spacing: 4px !important;
+        }
+        .window-body [style*="letter-spacing: 4px"][style*="font-size: 11px"] {
+          letter-spacing: 2px !important;
         }
 
         /* Recruit highlights */
         .recruit-highlight {
-          padding: 18px;
+          padding: 16px;
+          margin: 12px 0;
         }
         .recruit-highlight .rh-title {
-          font-size: 14px;
+          font-size: 13px;
         }
         .recruit-highlight .rh-desc {
           font-size: 12px;
+          line-height: 1.7;
+          word-break: keep-all;
         }
 
         /* Benefit cards */
         .benefit-card {
-          padding: 14px;
+          padding: 12px 8px;
         }
         .benefit-icon {
-          font-size: 24px;
+          font-size: 22px;
+          margin-bottom: 4px;
         }
         .benefit-name {
-          font-size: 13px;
+          font-size: 12px;
         }
         .benefit-desc {
           font-size: 10px;
+          line-height: 1.5;
         }
 
         /* Service cards */
         .service-card {
-          padding: 18px 14px;
+          padding: 16px 14px;
+        }
+        .service-name {
+          font-size: 15px;
+        }
+        .service-list {
+          font-size: 12px;
         }
 
         /* Timeline */
         .timeline {
-          padding-left: 16px;
+          padding-left: 14px;
+          margin: 12px 0;
+        }
+        .timeline-item::before {
+          left: -19px;
+          width: 6px;
+          height: 6px;
+        }
+        .timeline-year {
+          font-size: 11px;
+        }
+        .timeline-desc {
+          font-size: 11px;
         }
 
         /* Divider */
         .divider {
-          margin: 24px 0;
+          margin: 20px 0;
         }
 
         /* Taskbar */
         #taskbar {
-          bottom: 6px;
-          padding: 4px 8px;
-          gap: 2px;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          transform: none;
+          width: 100%;
+          border-radius: 0;
+          padding: 6px 12px;
+          padding-bottom: calc(6px + env(safe-area-inset-bottom));
+          gap: 0;
+          justify-content: space-around;
+          border: none;
+          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          background: rgba(8, 8, 22, 0.92);
         }
         .taskbar-icon {
-          width: 38px;
-          height: 38px;
-          font-size: 20px;
+          width: 44px;
+          height: 44px;
+          font-size: 22px;
+        }
+        .taskbar-icon:hover {
+          transform: none;
         }
         .taskbar-sep {
-          height: 24px;
-          margin: 0 3px;
+          display: none;
         }
 
         /* Contact items */
         .contact-item {
           padding: 14px;
+        }
+        .contact-label {
+          font-size: 10px;
+          letter-spacing: 1.5px;
         }
         .contact-value {
           font-size: 13px;
@@ -1216,38 +1351,67 @@
 
         /* Airbnb cards */
         .airbnb-card {
-          padding: 18px;
+          padding: 16px;
+          text-align: left;
         }
         .airbnb-flag {
-          font-size: 32px;
+          font-size: 30px;
+          margin-bottom: 8px;
         }
         .airbnb-country {
-          font-size: 16px;
+          font-size: 15px;
         }
         .airbnb-detail {
           font-size: 12px;
         }
+
+        /* Apply tags at bottom of recruit */
+        .window-body [style*="inline-flex"] {
+          gap: 8px !important;
+        }
+        .window-body [style*="padding: 8px 18px"] {
+          padding: 6px 12px !important;
+          font-size: 11px !important;
+        }
       }
 
-      /* === VERY SMALL SCREENS === */
+      /* === VERY SMALL SCREENS (iPhone SE etc.) === */
       @media (max-width: 380px) {
-        .stat-box {
-          flex: 1 1 100%;
-          min-width: 100%;
+        .login-time {
+          font-size: 40px !important;
+        }
+        .login-box img[alt="ONDA"] {
+          width: 100px !important;
+        }
+        .stat-row {
+          grid-template-columns: 1fr 1fr;
+        }
+        .stat-num {
+          font-size: 18px;
         }
         .benefit-grid {
           grid-template-columns: 1fr;
         }
         .window-body {
-          padding: 12px;
+          padding: 16px 12px;
         }
         .section-title {
           font-size: 18px;
         }
+        .section-desc {
+          font-size: 12px;
+        }
         .taskbar-icon {
-          width: 34px;
-          height: 34px;
-          font-size: 18px;
+          width: 40px;
+          height: 40px;
+          font-size: 20px;
+        }
+        .window-body [style*="font-size: 24px"],
+        .window-body [style*="font-size: 36px"] {
+          font-size: 20px !important;
+        }
+        .portfolio-thumb {
+          height: 120px;
         }
       }
     </style>
@@ -2613,10 +2777,11 @@
       updateClock();
       setInterval(updateClock, 10000);
 
-      // Particles
+      // Particles (fewer on mobile for performance)
       (function createParticles() {
         const container = document.getElementById('particles');
-        for (let i = 0; i < 40; i++) {
+        const count = isMobile ? 15 : 40;
+        for (let i = 0; i < count; i++) {
           const p = document.createElement('div');
           p.className = 'particle';
           p.style.left = Math.random() * 100 + '%';
@@ -2801,42 +2966,42 @@
         el.style.transition = 'opacity 0.5s, transform 0.5s';
       });
 
-      // Mobile: single tap opens window (dblclick is hard on mobile)
+      // Mobile detection
       const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+      // Mobile: single tap opens window (dblclick is hard on mobile)
       if (isMobile) {
         document.querySelectorAll('.desktop-icon').forEach(icon => {
-          icon.addEventListener('click', function() {
-            const dblHandler = this.getAttribute('ondblclick');
-            if (dblHandler) {
-              const match = dblHandler.match(/openWindow\('(\w+)'\)/);
-              if (match) openWindow(match[1]);
+          const handler = icon.getAttribute('ondblclick');
+          if (handler) {
+            const match = handler.match(/openWindow\('(\w+)'\)/);
+            if (match) {
+              const winName = match[1];
+              icon.removeAttribute('ondblclick');
+              icon.addEventListener('click', function(e) {
+                e.stopPropagation();
+                openWindow(winName);
+              });
             }
-          });
+          }
         });
       }
 
-      // Position desktop icons in a grid
-      (function layoutIcons() {
-        const icons = document.querySelectorAll('.desktop-icon');
-        const startX = 10, startY = 10, gapY = 95;
-        if (isMobile) {
-          const cols = Math.floor((window.innerWidth - 20) / 76);
-          icons.forEach((icon, i) => {
-            icon.style.position = 'absolute';
-            icon.style.left = (10 + (i % cols) * 76) + 'px';
-            icon.style.top = (10 + Math.floor(i / cols) * 90) + 'px';
-          });
-        } else {
+      // Position desktop icons in a grid (desktop only — mobile uses CSS flex)
+      if (!isMobile) {
+        (function layoutIcons() {
+          const icons = document.querySelectorAll('.desktop-icon');
+          const startX = 10, startY = 10, gapY = 95;
           icons.forEach((icon, i) => {
             icon.style.position = 'absolute';
             icon.style.left = startX + 'px';
             icon.style.top = (startY + i * gapY) + 'px';
           });
-        }
-      })();
+        })();
+      }
 
-      // Desktop icon drag
-      document.querySelectorAll('.desktop-icon').forEach(icon => {
+      // Desktop icon drag (desktop only)
+      if (!isMobile) document.querySelectorAll('.desktop-icon').forEach(icon => {
         let startX, startY, origX, origY, dragging = false;
         icon.addEventListener('mousedown', function(e) {
           if (e.detail >= 2) return;
