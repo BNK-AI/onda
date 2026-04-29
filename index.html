@@ -1608,15 +1608,18 @@
         <div class="login-role">Performance Marketing Agency</div>
         <div class="login-input-wrap">
           <input
-            type="password"
+            type="text"
             class="login-input"
             id="login-input"
-            placeholder="Enter password..."
+            placeholder="목표 월 수입을 입력하세요"
             autofocus
+            style="letter-spacing: 1px"
           />
           <button class="login-btn" id="login-btn">&#10140;</button>
         </div>
-        <div class="login-hint">Password required to access</div>
+        <div class="login-hint">
+          HINT: 숫자든 한글이든, 당신이 원하는 금액을 적어보세요
+        </div>
       </div>
     </div>
 
@@ -3430,7 +3433,10 @@
       function doLogin() {
         const input = document.getElementById('login-input');
         const pw = input.value.trim();
-        if (pw !== 'onda0911') {
+        // 숫자, 한글 금액 표현, 돈 관련 키워드가 포함되면 통과
+        const hasNumber = /\d/.test(pw);
+        const hasMoneyWord = /[만억천원월백십조]/.test(pw);
+        if (!pw || (!hasNumber && !hasMoneyWord)) {
           input.style.borderColor = '#ff4444';
           input.style.animation = 'shake 0.4s ease';
           setTimeout(() => {
@@ -3438,9 +3444,9 @@
             input.style.animation = '';
           }, 500);
           input.value = '';
-          input.placeholder = 'Wrong password';
+          input.placeholder = '금액을 입력해보세요';
           setTimeout(() => {
-            input.placeholder = 'Enter password...';
+            input.placeholder = '목표 월 수입을 입력하세요';
           }, 1500);
           return;
         }
